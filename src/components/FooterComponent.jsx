@@ -1,36 +1,23 @@
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../Styles.css";
+import logog2022 from "../geomaticlogo.png"
 
-export const FooterComponent = ({ gameCode }) => { // Empfange die Game-ID als Prop
+export const FooterComponent = () => {
   const navigate = useNavigate();
   return (
-    <footer className="FooterContainer"> {/* Füge eine Klasse hinzu, um den Footer zu positionieren */}
-      <div className="FooterButtons"> {/* Container für die Buttons */}
-        <Button
-          id="BackButton"
-          variant="outlined"
-          onClick={() => {
-            navigate("/form");
-          }}
-        >
-          Back
-        </Button>
-        <Button
-          id="LogoutButton"
-          variant="outlined"
-          onClick={() => {
-            navigate("/logout");
-          }}
-        >
-          Logout
-        </Button>
-      </div>
-      {gameCode && ( // Zeige die Game-ID nur an, wenn sie vorhanden ist
-        <div className="GameCode"> {/* Container für die Game-ID */}
-          Game-ID: {gameCode}
+    <footer className="App-header FooterContainer">
+      <img className="Logo" src={logog2022} alt="logo" />
+      <div className="FooterText">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '100px' }}>
+          Dies ist keine offizielle FHNW Website
         </div>
-      )}
+      </div>
+      <div className="FooterText" style={{ paddingRight: '20px' }}>
+        <div>
+          © Copyright by G.L. Schmid, S.Kägi<br />
+          <span style={{ paddingLeft: '20px' }}>V. Pereria, Patrick Würsten</span> 
+        </div>
+      </div>
     </footer>
   );
 };

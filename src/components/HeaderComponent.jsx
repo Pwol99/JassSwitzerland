@@ -7,8 +7,8 @@ export const HeaderComponent = (props) => {
   return (
     <AppBar position="static">
       <Toolbar className="App-header">
-        <img style={{ height: 40,}} src={logo} alt="logo" />
-        <div className="HeaderText">Das Schweizer Jassgame</div>
+        <img style={{ height: 60 }} src={logo} alt="logo" />
+        <div className="HeaderText" style={{ marginLeft: '250px' }}>Das Schweizer Jassgame</div>
         <div className="HeaderText" id="Username">
           <Typography variant="subtitle1">{props.username}</Typography>
         </div>

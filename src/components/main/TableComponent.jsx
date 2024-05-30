@@ -22,14 +22,12 @@ const shuffleDeck = (deck) => {
   return deck;
 };
 
-// Map each card to an index for the image
 const getCardIndex = (card) => {
   const suitIndex = suits.indexOf(card.suit);
   const valueIndex = values.indexOf(card.value);
   return suitIndex * values.length + valueIndex;
 };
 
-// Function to get the image path for a card
 const getCardImage = (index, deckType) => {
   const imageIndex = String(index).padStart(2, '0');
   const baseUrl = deckType === 'French' 
@@ -38,15 +36,15 @@ const getCardImage = (index, deckType) => {
   return `${baseUrl}${imageIndex}.png`;
 };
 
-const JassGame = () => {
+const SchieberGame = () => {
   const [deck, setDeck] = useState(shuffleDeck(createDeck()));
   const [hands, setHands] = useState([[], [], [], []]);
   const [deckType, setDeckType] = useState('French');
   const [selectedPlayer, setSelectedPlayer] = useState(0);
   const [playedCards, setPlayedCards] = useState([]);
   const [playerPlayedCard, setPlayerPlayedCard] = useState(null);
+  const [pointsToReach, setPointsToReach] = useState(1000); // Beispielwert, bitte anpassen
 
-  // Deal cards to four players
   const dealCards = () => {
     let newHands = [[], [], [], []];
     for (let i = 0; i < 9; i++) {
@@ -67,14 +65,12 @@ const JassGame = () => {
     setHands(newHands);
   };
 
-  // Start the game by shuffling and dealing cards
   const startGame = () => {
     let newDeck = shuffleDeck(createDeck());
     setDeck(newDeck);
     dealCards();
   };
 
-  // Toggle between French and Swiss decks
   const toggleDeckType = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
@@ -183,6 +179,7 @@ const playCard = (index) => {
                   alt={`${card.value} of ${card.suit}`}
                   style={{ width: '80px' }}
                 />
+              </div>
               </div>
             );
           })}
