@@ -16,7 +16,7 @@
 }
 
 .App-header {
-    background-color: #a79372;
+    background-color: #E7F6FF;
     color: #000000;
     font-size: calc(10px + 2vmin);
     display: flex;
@@ -43,7 +43,7 @@ footer {
     bottom: 0px;
     width: 100%;
     color: #000000;
-    background-color: #a79372;
+    background-color: #E7F6FF;
     border-top: 2px solid #000000;
     display: flex;
     justify-content: space-between;
@@ -93,7 +93,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     height: 65px;
-    background-color: #a79372;
+    background-color: #E7F6FF;
     border-top: 2px solid #000000;
 }
 
