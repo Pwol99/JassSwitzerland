@@ -1,0 +1,87 @@
+.LoginWrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px;
+}
+
+.PageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.App-header {
+    color: #007cc3;
+    background-color: white;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #007cc3;
+    height: 60px;
+}
+
+#DropdownWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.HeaderText {
+    color: #007cc3;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: #007cc3;
+    background-color: white;
+    padding: 4px 0px;
+    border-top: 1px solid #007cc3;
+    display: flex;
+    justify-content: space-between;
+}
+
+#LogoutButton {
+    margin-right: 10px;
+}
+
+#BackButton {
+    margin-left: 10px;
+}
+
+#ButtonWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Dropdown {
+    width: 250px;
+}
+
+#FormWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#SliderWrapper {
+    margin: 20px 0;
+}
+
+#Username {
+    min-width: 300px;
+    text-align: right;
+}
