@@ -68,7 +68,7 @@ export const LoginComponent = (props) => {
                 Willkommen beim Jassen, dem beliebten Kartenspiel, das in der ganzen Schweiz und in anderen alemannischen Regionen gespielt wird! Mit 36 Karten und vier Spielern bringt Jassen Menschen zusammen und ist ein wichtiger Teil unserer kulturellen Tradition. Aus diesem Grund kann man hier je nach Kanton, in dem man lebt oder aufgewachsen ist, die entsprechenden Karten wählen und die Regeln anpassen. Also, schnapp dir deine Karten und lass die Spiele beginnen – Jassen verbindet und begeistert!
               </Typography>
             </div>
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '40px' }}>
               <Typography variant="body2" onClick={handleImpressumClick} style={{ cursor: 'pointer' }}>
                 Impressum
               </Typography>
