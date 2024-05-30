@@ -15,7 +15,7 @@ export const ImpressumComponent = (props) => {
           <section>
             <h2>Autoren</h2>
             <p>Studierende 4 Semester Geomatik Bsc.<br />
-            Gian Luca Schmid, Sina Kägi, Vania Perreira, Patrick Würsten</p>
+            Gian Luca Schmid, Sina Kägi, Vania Pereira, Patrick Würsten</p>
           </section>
           <section>
             <h2>Gestaltung</h2>
