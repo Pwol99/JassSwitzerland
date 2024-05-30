@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import teppich from "./jass_teppich.png"; // Import the image
 
 // Define the cards and their values
 const suits = ['Acorns', 'Roses','Bells' , 'Shields'];
@@ -79,52 +80,52 @@ const JassGame = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
 
-// Play a card from the player's hand
-const playCard = (index) => {
-  const card = hands[selectedPlayer][index]; // Get the card that the player clicked on
-  const updatedHands = [...hands]; // Create a copy of the current hands
+  // Play a card from the player's hand
+  const playCard = (index) => {
+    const card = hands[selectedPlayer][index]; // Get the card that the player clicked on
+    const updatedHands = [...hands]; // Create a copy of the current hands
 
-  // Remove the played card from the player's hand
-  updatedHands[selectedPlayer].splice(index, 1);
+    // Remove the played card from the player's hand
+    updatedHands[selectedPlayer].splice(index, 1);
 
-  // Update the hands state with the modified hand
-  setHands(updatedHands);
+    // Update the hands state with the modified hand
+    setHands(updatedHands);
 
-  // Add the played card to the played cards list with index 0
-  const newPlayedCards = [{ ...card, index: 0 }];
-  setPlayedCards(newPlayedCards);
+    // Add the played card to the played cards list with index 0
+    const newPlayedCards = [{ ...card, index: 0 }];
+    setPlayedCards(newPlayedCards);
 
-  // Check the suit of the played card at index 0
-  const playedSuit = card.suit;
+    // Check the suit of the played card at index 0
+    const playedSuit = card.suit;
 
-  // Iterate over the other players' hands
-  updatedHands.forEach((playerHand, playerIndex) => {
-    if (playerIndex !== selectedPlayer) {
-      // Find cards of the same suit as the played card
-      const sameSuitCards = playerHand.filter(c => c.suit === playedSuit);
+    // Iterate over the other players' hands
+    updatedHands.forEach((playerHand, playerIndex) => {
+      if (playerIndex !== selectedPlayer) {
+        // Find cards of the same suit as the played card
+        const sameSuitCards = playerHand.filter(c => c.suit === playedSuit);
 
-      let selectedCard;
-      if (sameSuitCards.length > 0) {
-        // If there are cards of the same suit, select a random one
-        const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
-        selectedCard = sameSuitCards[randomIndex];
-      } else {
-        // If there are no cards of the same suit, select a random card
-        const randomIndex = Math.floor(Math.random() * playerHand.length);
-        selectedCard = playerHand[randomIndex];
+        let selectedCard;
+        if (sameSuitCards.length > 0) {
+          // If there are cards of the same suit, select a random one
+          const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
+          selectedCard = sameSuitCards[randomIndex];
+        } else {
+          // If there are no cards of the same suit, select a random card
+          const randomIndex = Math.floor(Math.random() * playerHand.length);
+          selectedCard = playerHand[randomIndex];
+        }
+
+        // Remove the selected card from the player's hand
+        playerHand.splice(playerHand.indexOf(selectedCard), 1);
+
+        // Add the selected card to the played cards list with the corresponding player index
+        newPlayedCards.push({ ...selectedCard, index: playerIndex });
       }
+    });
 
-      // Remove the selected card from the player's hand
-      playerHand.splice(playerHand.indexOf(selectedCard), 1);
-
-      // Add the selected card to the played cards list with the corresponding player index
-      newPlayedCards.push({ ...selectedCard, index: playerIndex });
-    }
-  });
-
-  // Update the played cards state with all the played cards
-  setPlayedCards(newPlayedCards);
-};
+    // Update the played cards state with all the played cards
+    setPlayedCards(newPlayedCards);
+  };
 
 
   // Clear the played cards list
@@ -133,8 +134,8 @@ const playCard = (index) => {
   };
 
   return (
-    <div style={{ backgroundColor: 'black', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ marginTop: '20px', color: 'white' }}>
+    <div style={{ backgroundColor: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ marginTop: '20px', color: 'black' }}>
         <button onClick={startGame}>Start Game</button>
         <button onClick={toggleDeckType} style={{ marginLeft: '10px' }}>
           Switch to {deckType === 'French' ? 'Swiss' : 'French'} Deck
@@ -146,7 +147,18 @@ const playCard = (index) => {
           ))}
         </select>
       </div>
-      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', flex: '1' }}>
+      <div style={{ 
+        marginTop: '20px', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'relative', 
+        flex: '1', 
+        width: '100%', 
+        height: '100%', 
+        background: `url(${teppich}) center center no-repeat`, // Use the imported image
+        backgroundSize: 'cover' 
+      }}>
         {playedCards.map((card, index) => (
           <img
             key={index}
@@ -166,7 +178,7 @@ const playCard = (index) => {
           />
         ))}
       </div>
-      <div style={{ marginTop: '20px', marginBottom: '20px', color: 'white' }}> 
+      <div style={{ marginTop: '20px', marginBottom: '20px', color: 'black' }}> 
         <h2>Player {selectedPlayer + 1} Hand</h2>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {hands[selectedPlayer].map((card, index) => {
@@ -186,4 +198,5 @@ const playCard = (index) => {
     </div>
   );
 };
+
 export default JassGame;
