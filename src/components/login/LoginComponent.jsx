@@ -11,14 +11,15 @@ export const LoginComponent = (props) => {
 
   const [credentials, setCredentials] = useState({
     username: "",
-    password: "",
   });
 
   const handleUserChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
-    setCredentials(() => ({ ...credentials, [name]: value }));
+    const stateName = name === "Name" ? "username" : name;
+
+    setCredentials((prevCredentials) => ({ ...prevCredentials, [stateName]: value }));
   };
 
   return (
@@ -27,21 +28,16 @@ export const LoginComponent = (props) => {
       <div className="PageWrapper">
         <div className="LoginWrapper">
           <Card sx={{ width: 400, padding: 1 }}>
-            <Typography variant="h5">Login</Typography>
+            <Typography variant="h5">Gebe deinen Namen ein:</Typography>
             <CardContent>
               <GenericInput
                 value={credentials.username}
                 onChange={handleUserChange}
-                name="username"
-              />
-              <GenericInput
-                value={credentials.password}
-                onChange={handleUserChange}
-                name="password"
+                name="Name"
               />
             </CardContent>
             <Button
-              disabled={!credentials.username || !credentials.password}
+              disabled={!credentials.username}
               variant="contained"
               onClick={() => {
                 props.setUser(credentials);
