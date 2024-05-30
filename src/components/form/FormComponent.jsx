@@ -26,7 +26,7 @@ export const FormComponent = (props) => {
             closeButton: false // Kein Close-Button anzeigen
           })
             .setLatLng(layer.getBounds().getCenter())
-            .setContent(props.language === 'Ger' ? generatePopupContentGer(feature) : generatePopupContentFra(feature))
+            .setContent(generatePopupContentGer(feature))
             .openOn(layer._map);
         },
         mouseout: (event) => {
@@ -39,13 +39,12 @@ export const FormComponent = (props) => {
 
   // Funktion zur Generierung des Popup-Inhalts auf Deutsch
   const generatePopupContentGer = (feature) => {
-    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${feature.properties.Jasskarten_typ}`;
+    const kanType = feature.properties.Jasskarten_typ === 'Ger' ? 'Deutsch' : 'Französisch';
+    // const language = props.language === 'Ger' ? 'Deutsch' : 'Französisch';
+
+    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${kanType}<br/>`;
   };
 
-  // Funktion zur Generierung des Popup-Inhalts auf Französisch
-  const generatePopupContentFra = (feature) => {
-    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${feature.properties.Jasskarten_typ}`;
-  };
 
   const geoJsonStyle = {
     color: '#000000',
