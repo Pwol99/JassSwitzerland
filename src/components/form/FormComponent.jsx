@@ -5,30 +5,41 @@ import { FooterComponent } from "../FooterComponent";
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
+import L from 'leaflet';
 
 export const FormComponent = (props) => {
   // Funktion, um Popup-Fenster zu jedem Kanton hinzuzufügen und Maus-Interaktionen zu definieren
   const onEachFeature = (feature, layer) => {
-    if (feature.properties && feature.properties.kan_type) {
-      layer.bindPopup(`<b>Kanton Typ:</b> ${feature.properties.kan_type}`);
-    }
+    if (feature.properties && feature.properties.kan_name) {
+    let originalStyle = null;
+      layer.on({
+        mouseover: (event) => {
+          originalStyle = event.target.options.style;
+          layer.setStyle({
+            fillOpacity: 0.2
+          });
 
-    layer.on({
-      mouseover: (event) => {
-        event.target.setStyle({
-          weight: 3,
-          color: '#666',
-          fillOpacity: 0.7
-        });
-      },
-      mouseout: (event) => {
-        event.target.setStyle({
-          weight: 1,
-          color: '#3388ff',
-          fillOpacity: 0.2
-        });
-      }
-    });
+          // Popup zentrieren
+          const popup = L.popup({
+            autoPan: true,
+            autoPanPadding: [100, 100] // Padding to keep the popup in the center
+          })
+            .setLatLng(layer.getBounds().getCenter())
+            .setContent(`<b>Kanton:</b> ${feature.properties.kan_name}`)
+            .openOn(layer._map);
+        },
+        mouseout: (event) => {
+          event.target.setStyle(originalStyle);
+          layer._map.closePopup();
+        }
+      });
+    }
+  };
+
+  const geoJsonStyle = {
+    color: '#000000',
+    weight: 1,
+    fillOpacity: 0
   };
 
   return (
@@ -48,7 +59,7 @@ export const FormComponent = (props) => {
             attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>, USGS, NOAA'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
           />
-          <GeoJSON data={cantonsGeoJSON} onEachFeature={onEachFeature} />
+          <GeoJSON data={cantonsGeoJSON} style={geoJsonStyle} onEachFeature={onEachFeature} />
         </MapContainer>
       </div>
       <FooterComponent />
