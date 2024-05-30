@@ -14,9 +14,8 @@ export const LoginComponent = ({ playername, setplayername }) => {
     setplayername(event.target.value);
   };
 
-  const handleNewRoomClick = (event) => {
-    setplayername(event.target.value)
-    console.log("Playername:", event.target.value); // Hier hinzugefügt
+  const handleNewRoomClick = () => {
+    console.log("Playername:", playername); // Überprüfen Sie den aktuellen Wert von playername
     navigate("/form");
   };
 
