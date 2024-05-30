@@ -7,7 +7,7 @@ import { FormComponent } from "./components/form/FormComponent";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
 
 function App() {
-  const [playername, setplayername] = useState()
+  const [playername, setplayername] = useState(""); // Standardwert als leerer String
 
   return (
     <Routes>
