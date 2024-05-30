@@ -30,14 +30,18 @@ const getCardIndex = (card) => {
 };
 
 // Function to get the image path for a card
-const getCardImage = (index) => {
+const getCardImage = (index, deckType) => {
   const imageIndex = String(index).padStart(2, '0');
-  return `https://www.jassportal.ch/qxathena/images/fra/${imageIndex}.png`;
+  const baseUrl = deckType === 'French' 
+    ? 'https://www.jassportal.ch/qxathena/images/fra/' 
+    : 'https://www.jassportal.ch/qxathena/images/ger/';
+  return `${baseUrl}${imageIndex}.png`;
 };
 
 const JassGame = () => {
   const [deck, setDeck] = useState(shuffleDeck(createDeck()));
   const [hands, setHands] = useState([[], [], [], []]);
+  const [deckType, setDeckType] = useState('French');
 
   // Deal cards to four players
   const dealCards = () => {
@@ -57,10 +61,18 @@ const JassGame = () => {
     dealCards();
   };
 
+  // Toggle between French and Swiss decks
+  const toggleDeckType = () => {
+    setDeckType(deckType === 'French' ? 'Swiss' : 'French');
+  };
+
   return (
     <div>
       <h1>Jass Game</h1>
       <button onClick={startGame}>Start Game</button>
+      <button onClick={toggleDeckType}>
+        Switch to {deckType === 'French' ? 'Swiss' : 'French'} Deck
+      </button>
       {hands.map((hand, playerIndex) => (
         <div key={playerIndex}>
           <h2>Player {playerIndex + 1} Hand</h2>
@@ -70,7 +82,7 @@ const JassGame = () => {
               return (
                 <div key={index} style={{ margin: '10px' }}>
                   <img
-                    src={getCardImage(cardIndex)}
+                    src={getCardImage(cardIndex, deckType)}
                     alt={`${card.value} of ${card.suit}`}
                     style={{ width: '100px' }}
                   />
