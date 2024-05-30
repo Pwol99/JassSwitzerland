@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // Define the cards and their values
-const suits = ['Acorns', 'Bells', 'Roses', 'Shields'];
-const values = ['6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
+const suits = ['Herz', 'Karo', 'Pik', 'Kreuz'];
+const values = ['6', '7', '8', '9', '10', 'Bube', 'Dame', 'König', 'Ass'];
 
 const createDeck = () => {
   let deck = [];
@@ -22,14 +22,12 @@ const shuffleDeck = (deck) => {
   return deck;
 };
 
-// Map each card to an index for the image
 const getCardIndex = (card) => {
   const suitIndex = suits.indexOf(card.suit);
   const valueIndex = values.indexOf(card.value);
   return suitIndex * values.length + valueIndex;
 };
 
-// Function to get the image path for a card
 const getCardImage = (index, deckType) => {
   const imageIndex = String(index).padStart(2, '0');
   const baseUrl = deckType === 'French' 
@@ -38,15 +36,15 @@ const getCardImage = (index, deckType) => {
   return `${baseUrl}${imageIndex}.png`;
 };
 
-const JassGame = () => {
+const SchieberGame = () => {
   const [deck, setDeck] = useState(shuffleDeck(createDeck()));
   const [hands, setHands] = useState([[], [], [], []]);
   const [deckType, setDeckType] = useState('French');
   const [selectedPlayer, setSelectedPlayer] = useState(0);
   const [playedCards, setPlayedCards] = useState([]);
   const [playerPlayedCard, setPlayerPlayedCard] = useState(null);
+  const [pointsToReach, setPointsToReach] = useState(1000); // Beispielwert, bitte anpassen
 
-  // Deal cards to four players
   const dealCards = () => {
     let newHands = [[], [], [], []];
     for (let i = 0; i < 9; i++) {
@@ -57,38 +55,32 @@ const JassGame = () => {
     setHands(newHands);
   };
 
-  // Start the game by shuffling and dealing cards
   const startGame = () => {
     let newDeck = shuffleDeck(createDeck());
     setDeck(newDeck);
     dealCards();
   };
 
-  // Toggle between French and Swiss decks
   const toggleDeckType = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
 
-  // Play a card from the player's hand
-  // Play a card from the player's hand
-const playCard = (index) => {
-  const card = hands[selectedPlayer][index];
-  const updatedHands = [...hands];
-  updatedHands[selectedPlayer].splice(index, 1);
-  setHands(updatedHands);
+  const playCard = (index) => {
+    const card = hands[selectedPlayer][index];
+    const updatedHands = [...hands];
+    updatedHands[selectedPlayer].splice(index, 1);
+    setHands(updatedHands);
 
-  // Select a random card from each of the other players' hands
-  const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
-  const playedCards = otherPlayers.map((playerHand, playerIndex) => {
-    const randomIndex = Math.floor(Math.random() * playerHand.length);
-    const randomCard = playerHand[randomIndex];
-    playerHand.splice(randomIndex, 1); // Remove card from player's hand
-    return { ...randomCard, index: playerIndex }; // Assigning index for each played card
-  });
+    const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
+    const playedCards = otherPlayers.map((playerHand, playerIndex) => {
+      const randomIndex = Math.floor(Math.random() * playerHand.length);
+      const randomCard = playerHand[randomIndex];
+      playerHand.splice(randomIndex, 1);
+      return { ...randomCard, index: playerIndex };
+    });
 
-  // Add player's played card to the played cards list
-  setPlayedCards([...playedCards, { ...card, index: 3 }]);
-};
+    setPlayedCards([...playedCards, { ...card, index: 3 }]);
+  };
 
   return (
     <div style={{ backgroundColor: 'black', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -116,7 +108,7 @@ const playCard = (index) => {
               top: 'calc(50% - 40px)',
               left: 'calc(50% - 40px)',
               transform: `rotate(${index === 0 ? '90deg' : index === 1 ? '0deg' : index === 2 ? '90deg' : '0deg'})  
-                          translate(${card.index === 0 ? '0px, 50px' : card.index === 1 ? '0px, -50px' : card.index === 2 ? '0px, -50px' : '0px, 50px'})`, // Adjusted rotation and translation
+                          translate(${card.index === 0 ? '0px, 50px' : card.index === 1 ? '0px, -50px' : card.index === 2 ? '0px, -50px' : '0px, 50px'})`,
               zIndex: index === 0 ? '3' : index === 1 ? '2' : index === 2 ? '1' : '0'
             }}
           />
@@ -134,7 +126,7 @@ const playCard = (index) => {
                   alt={`${card.value} of ${card.suit}`}
                   style={{ width: '80px' }}
                 />
-                            </div>
+              </div>
             );
           })}
         </div>
@@ -143,4 +135,4 @@ const playCard = (index) => {
   );
 };
 
-export default JassGame;
+export default SchieberGame;

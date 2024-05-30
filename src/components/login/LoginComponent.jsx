@@ -5,13 +5,13 @@ import { Card, Button, CardContent, Typography } from "@mui/material";
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
+import backgroundpicture from "../../Backgroundpicture.jpeg";
 
 export const LoginComponent = (props) => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-    username: "",
-    gameCode: null,
+    username: ""
   });
 
   const handleUserChange = (event) => {
@@ -23,17 +23,8 @@ export const LoginComponent = (props) => {
     setCredentials((prevCredentials) => ({ ...prevCredentials, [stateName]: value }));
   };
 
-  const generateGameCode = () => {
-    // Zufälligen 6-stelligen Gamecode generieren
-    const min = 100000;
-    const max = 999999;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   const handleNewRoomClick = () => {
-    const newGameCode = generateGameCode();
-    setCredentials((prevCredentials) => ({ ...prevCredentials, gameCode: newGameCode }));
-    navigate("/new-room", { state: { gameCode: newGameCode } }); // Navigiere zur Route "/new-room" mit der neuen Game-ID
+    navigate("/new-room"); // Navigiere zur Route "/new-room" ohne einen Gamecode zu übergeben
   };
 
   const handleJoinRoomClick = () => {
@@ -43,7 +34,13 @@ export const LoginComponent = (props) => {
   return (
     <>
       <HeaderComponent username={props.user.username} />
-      <div className="PageWrapper">
+      <div className="PageWrapper" style={{ 
+        backgroundImage: `url(${backgroundpicture})`, 
+        backgroundSize: 'contain', 
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', // Hier wird die Hintergrundbefestigung auf 'fixed' gesetzt
+        height: '80vh', // Hier wird die Höhe auf '100vh' festgelegt
+      }}>
         <div className="LoginWrapper">
           <Card sx={{ width: 400, padding: 1 }}>
             <Typography variant="h5">Gebe deinen Namen ein:</Typography>
@@ -61,17 +58,10 @@ export const LoginComponent = (props) => {
             >
               Neuer Raum
             </Button>
-            <Button
-              disabled={!credentials.username}
-              variant="contained"
-              onClick={handleJoinRoomClick}
-            >
-              Bestehendem Raum beitreten
-            </Button>
           </Card>
         </div>
       </div>
-      <FooterComponent gameCode={credentials.gameCode} /> {/* Übergebe die Game-ID als Prop an den Footer */}
+      <FooterComponent></FooterComponent>
     </>
   );
 };
