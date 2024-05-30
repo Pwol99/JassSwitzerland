@@ -6,6 +6,7 @@ import { LoginComponent } from "./components/login/LoginComponent";
 import { LogoutComponent } from "./components/login/LogoutComponent";
 import { FormComponent } from "./components/form/FormComponent";
 import { defaultData } from "./data/tableData";
+import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
 
 function App() {
   const noUser = { username: "", password: "" };
@@ -26,6 +27,15 @@ function App() {
         path="/form"
         element={
           <FormComponent
+            username={user.username}
+            addToTableData={addToTableData}
+          />
+        }
+      />
+      <Route
+        path="/impressum"
+        element={
+          <ImpressumComponent
             username={user.username}
             addToTableData={addToTableData}
           />

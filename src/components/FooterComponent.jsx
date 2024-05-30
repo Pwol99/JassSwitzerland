@@ -14,8 +14,8 @@ export const FooterComponent = () => {
       </div>
       <div className="FooterText" style={{ paddingRight: '20px' }}>
         <div>
-          © Copyright by G.L. Schmid, S.Kägi<br />
-          <span style={{ paddingLeft: '20px' }}>V. Pereria, Patrick Würsten</span> 
+          © Copyright by G. Schmid, S.Kägi<br />
+          <span style={{ paddingLeft: '20px' }}>V. Perreria, P.Würsten</span> 
         </div>
       </div>
     </footer>
