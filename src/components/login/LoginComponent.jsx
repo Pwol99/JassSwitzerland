@@ -4,6 +4,7 @@ import { GenericInput } from "../InputComponent";
 import { Card, Button, CardContent, Typography } from "@mui/material";
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
+import { FooterComponent } from "../FooterComponent";
 
 export const LoginComponent = (props) => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ export const LoginComponent = (props) => {
           </Card>
         </div>
       </div>
+      <FooterComponent></FooterComponent>
     </>
   );
 };

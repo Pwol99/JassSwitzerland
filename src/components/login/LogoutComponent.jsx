@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
+import { FooterComponent } from "../FooterComponent";
 
 export const LogoutComponent = (props) => {
   return (
@@ -13,6 +14,7 @@ export const LogoutComponent = (props) => {
           <Link to="/">Back to Login</Link>
         </div>
       </div>
+      <FooterComponent></FooterComponent>
     </>
   );
 };

@@ -86,7 +86,7 @@ export const FormComponent = (props) => {
           </CardContent>
         </Card>
       </div>
-      <FooterComponent></FooterComponent>
+      <FooterComponent />
     </>
   );
 };
