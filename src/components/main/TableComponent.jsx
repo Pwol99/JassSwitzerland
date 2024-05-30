@@ -79,53 +79,53 @@ const JassGame = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
 
- // Play a card from the player's hand
+// Play a card from the player's hand
 const playCard = (index) => {
-  const card = hands[selectedPlayer][index];
-  const updatedHands = [...hands];
+  const card = hands[selectedPlayer][index]; // Get the card that the player clicked on
+  const updatedHands = [...hands]; // Create a copy of the current hands
+
+  // Remove the played card from the player's hand
   updatedHands[selectedPlayer].splice(index, 1);
+
+  // Update the hands state with the modified hand
   setHands(updatedHands);
 
-  // Select a random card from each of the other players' hands
-  const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
-  const playedCardsTemp = [];
-  otherPlayers.forEach((playerHand, playerIndex) => {
-    let randomCard;
-    if (playerIndex === 0) {
-      // For the computer player
-      const sameSuitCards = playerHand.filter(c => c.suit === card.suit);
+  // Add the played card to the played cards list with index 0
+  const newPlayedCards = [{ ...card, index: 0 }];
+  setPlayedCards(newPlayedCards);
+
+  // Check the suit of the played card at index 0
+  const playedSuit = card.suit;
+
+  // Iterate over the other players' hands
+  updatedHands.forEach((playerHand, playerIndex) => {
+    if (playerIndex !== selectedPlayer) {
+      // Find cards of the same suit as the played card
+      const sameSuitCards = playerHand.filter(c => c.suit === playedSuit);
+
+      let selectedCard;
       if (sameSuitCards.length > 0) {
-        // If the computer has cards of the same suit, randomly select one
+        // If there are cards of the same suit, select a random one
         const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
-        randomCard = sameSuitCards[randomIndex];
-        playerHand.splice(playerHand.indexOf(randomCard), 1); // Remove card from player's hand
+        selectedCard = sameSuitCards[randomIndex];
       } else {
-        // If the computer doesn't have cards of the same suit, randomly select any card
+        // If there are no cards of the same suit, select a random card
         const randomIndex = Math.floor(Math.random() * playerHand.length);
-        randomCard = playerHand[randomIndex];
-        playerHand.splice(randomIndex, 1); // Remove card from player's hand
+        selectedCard = playerHand[randomIndex];
       }
-    } else {
-      // For human players, select a random card from their hand
-      const sameSuitCards = playerHand.filter(c => c.suit === playedCardsTemp[0].suit);
-      if (sameSuitCards.length > 0) {
-        // If the player has cards of the same suit, randomly select one
-        const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
-        randomCard = sameSuitCards[randomIndex];
-        playerHand.splice(playerHand.indexOf(randomCard), 1); // Remove card from player's hand
-      } else {
-        // If the player doesn't have cards of the same suit, randomly select any card
-        const randomIndex = Math.floor(Math.random() * playerHand.length);
-        randomCard = playerHand[randomIndex];
-        playerHand.splice(randomIndex, 1); // Remove card from player's hand
-      }
+
+      // Remove the selected card from the player's hand
+      playerHand.splice(playerHand.indexOf(selectedCard), 1);
+
+      // Add the selected card to the played cards list with the corresponding player index
+      newPlayedCards.push({ ...selectedCard, index: playerIndex });
     }
-    playedCardsTemp.push({ ...randomCard, index: playerIndex }); // Assigning index for each played card
   });
 
-  // Add player's played card to the played cards list
-  setPlayedCards([...playedCardsTemp, { ...card, index: 3 }]);
+  // Update the played cards state with all the played cards
+  setPlayedCards(newPlayedCards);
 };
+
 
   // Clear the played cards list
   const clearPlayedCards = () => {
@@ -157,9 +157,9 @@ const playCard = (index) => {
               position: 'absolute',
               top: 'calc(50% - 40px)',
               left: 'calc(50% - 40px)',
-              transform: `rotate(${index === 0 ? '90deg' : index === 1 ? '0deg' : index === 2 ? '90deg' : '0deg'})  
+              transform: `rotate(${index === 0 ? '0deg' : index === 1 ? '90deg' : index === 2 ? '0deg' : '90deg'})  
                           translate(${card.index === 0 ? '0px, 50px' : card.index === 1 ? '0px, -50px' : card.index === 2 ? '0px, -50px' : '0px, 50px'})`, // Adjusted rotation and translation
-              zIndex: index === 0 ? '3' : index === 1 ? '2' : index === 2 ? '1' : '0',
+              zIndex: index === 0 ? '0' : index === 1 ? '1' : index === 2 ? '2' : '3',
               cursor: 'pointer' // Cursor style for indicating clickability
             }}
             onClick={clearPlayedCards} // Add onClick handler to clear played cards when clicked
