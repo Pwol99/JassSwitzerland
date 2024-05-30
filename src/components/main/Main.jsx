@@ -6,7 +6,7 @@ export const Main = (props) => {
   return (
     <div className="App">
       <HeaderComponent username={props.username} />
-      <JassGame playername={props.playername}/>
+      <JassGame playername={props.playername} setplayername={props.setplayername}/>
     </div>
   );
 };

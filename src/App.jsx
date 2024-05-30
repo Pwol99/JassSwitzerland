@@ -31,7 +31,11 @@ function App() {
       />
       <Route
         path="/main"
-        element={<Main playername={playername} />}
+        element={
+          <Main
+            playername={playername} setplayername={setplayername}
+          />
+        }
       />
     </Routes>
   );
