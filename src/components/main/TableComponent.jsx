@@ -1,38 +1,99 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React, { useState } from 'react';
 
-export const TableComponent = (props) => {
+// Define the cards and their values
+const suits = ['Acorns', 'Bells', 'Roses', 'Shields'];
+const values = ['6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
+
+const createDeck = () => {
+  let deck = [];
+  for (let suit of suits) {
+    for (let value of values) {
+      deck.push({ suit, value });
+    }
+  }
+  return deck;
+};
+
+const shuffleDeck = (deck) => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+};
+
+// Map each card to an index for the image
+const getCardIndex = (card) => {
+  const suitIndex = suits.indexOf(card.suit);
+  const valueIndex = values.indexOf(card.value);
+  return suitIndex * values.length + valueIndex;
+};
+
+// Function to get the image path for a card
+const getCardImage = (index, deckType) => {
+  const imageIndex = String(index).padStart(2, '0');
+  const baseUrl = deckType === 'French' 
+    ? 'https://www.jassportal.ch/qxathena/images/fra/' 
+    : 'https://www.jassportal.ch/qxathena/images/ger/';
+  return `${baseUrl}${imageIndex}.png`;
+};
+
+const JassGame = () => {
+  const [deck, setDeck] = useState(shuffleDeck(createDeck()));
+  const [hands, setHands] = useState([[], [], [], []]);
+  const [deckType, setDeckType] = useState('French');
+
+  // Deal cards to four players
+  const dealCards = () => {
+    let newHands = [[], [], [], []];
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 4; j++) {
+        newHands[j].push(deck.pop());
+      }
+    }
+    setHands(newHands);
+  };
+
+  // Start the game by shuffling and dealing cards
+  const startGame = () => {
+    let newDeck = shuffleDeck(createDeck());
+    setDeck(newDeck);
+    dealCards();
+  };
+
+  // Toggle between French and Swiss decks
+  const toggleDeckType = () => {
+    setDeckType(deckType === 'French' ? 'Swiss' : 'French');
+  };
+
   return (
-    <TableContainer component={Paper} style={{ height: "89vh" }}>
-      <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Abstract</TableCell>
-            <TableCell>Provider</TableCell>
-            <TableCell>Service</TableCell>
-            <TableCell>Metaquality</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {props.tableData.map((row, index) => (
-            <tr key={index}>
-              <td>{row.title}</td>
-              <td>{row.abstract}</td>
-              <td>{row.provider}</td>
-              <td>{row.service}</td>
-              <td>{row.metaquality}</td>
-            </tr>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      <h1>Jass Game</h1>
+      <button onClick={startGame}>Start Game</button>
+      <button onClick={toggleDeckType}>
+        Switch to {deckType === 'French' ? 'Swiss' : 'French'} Deck
+      </button>
+      {hands.map((hand, playerIndex) => (
+        <div key={playerIndex}>
+          <h2>Player {playerIndex + 1} Hand</h2>
+          <div style={{ display: 'flex' }}>
+            {hand.map((card, index) => {
+              const cardIndex = getCardIndex(card);
+              return (
+                <div key={index} style={{ margin: '10px' }}>
+                  <img
+                    src={getCardImage(cardIndex, deckType)}
+                    alt={`${card.value} of ${card.suit}`}
+                    style={{ width: '100px' }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
+
+export default JassGame;
