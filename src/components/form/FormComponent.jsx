@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
 import L from 'leaflet';
 
-export const FormComponent = ({playername}) => {
+export const FormComponent = (props) => {
   const onEachFeature = (feature, layer) => {
     if (feature.properties && feature.properties.kan_name) {
       let originalStyle = null;
@@ -53,12 +53,16 @@ export const FormComponent = ({playername}) => {
 
   return (
     <>
-      <HeaderComponent playername= {playername} />
+      <HeaderComponent playername={props.playername} />
       <div style={{ height: "calc(100vh - 135px)" }}>
         <MapContainer
           center={[46.8182, 8.2275]}
           zoom={8}
-          scrollWheelZoom={false}
+          scrollWheelZoom={false} // Disable scroll wheel zoom
+          dragging={false} // Disable dragging
+          touchZoom={false} // Disable touch zoom
+          doubleClickZoom={false} // Disable double click zoom
+          tap={false} // Disable tap
           style={{ width: "100%", height: "100%" }}
           minZoom={8}
           maxZoom={8}
