@@ -22,12 +22,14 @@ const shuffleDeck = (deck) => {
   return deck;
 };
 
+// Map each card to an index for the image
 const getCardIndex = (card) => {
   const suitIndex = suits.indexOf(card.suit);
   const valueIndex = values.indexOf(card.value);
   return suitIndex * values.length + valueIndex;
 };
 
+// Function to get the image path for a card
 const getCardImage = (index, deckType) => {
   const imageIndex = String(index).padStart(2, '0');
   const baseUrl = deckType === 'French' 
@@ -36,15 +38,15 @@ const getCardImage = (index, deckType) => {
   return `${baseUrl}${imageIndex}.png`;
 };
 
-const SchieberGame = () => {
+const JassGame = () => {
   const [deck, setDeck] = useState(shuffleDeck(createDeck()));
   const [hands, setHands] = useState([[], [], [], []]);
   const [deckType, setDeckType] = useState('French');
   const [selectedPlayer, setSelectedPlayer] = useState(0);
   const [playedCards, setPlayedCards] = useState([]);
   const [playerPlayedCard, setPlayerPlayedCard] = useState(null);
-  const [pointsToReach, setPointsToReach] = useState(1000); // Beispielwert, bitte anpassen
 
+  // Deal cards to four players
   const dealCards = () => {
     let newHands = [[], [], [], []];
     for (let i = 0; i < 9; i++) {
@@ -65,17 +67,19 @@ const SchieberGame = () => {
     setHands(newHands);
   };
 
+  // Start the game by shuffling and dealing cards
   const startGame = () => {
     let newDeck = shuffleDeck(createDeck());
     setDeck(newDeck);
     dealCards();
   };
 
+  // Toggle between French and Swiss decks
   const toggleDeckType = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
 
-// Play a card from the player's hand
+ // Play a card from the player's hand
 const playCard = (index) => {
   const card = hands[selectedPlayer][index];
   const updatedHands = [...hands];
@@ -103,7 +107,7 @@ const playCard = (index) => {
       }
     } else {
       // For human players, select a random card from their hand
-      const sameSuitCards = playerHand.filter(c => c.suit === playedCardsTemp[0].suit); // Check the suit of the initially played card
+      const sameSuitCards = playerHand.filter(c => c.suit === playedCardsTemp[0].suit);
       if (sameSuitCards.length > 0) {
         // If the player has cards of the same suit, randomly select one
         const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
@@ -123,15 +127,10 @@ const playCard = (index) => {
   setPlayedCards([...playedCardsTemp, { ...card, index: 3 }]);
 };
 
-
-
-
-
-
   // Clear the played cards list
   const clearPlayedCards = () => {
-    setPlayedCards([]);}
-
+    setPlayedCards([]);
+  };
 
   return (
     <div style={{ backgroundColor: 'black', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -158,7 +157,7 @@ const playCard = (index) => {
               position: 'absolute',
               top: 'calc(50% - 40px)',
               left: 'calc(50% - 40px)',
-              transform: `rotate(${index === 0 ? '0deg' : index === 1 ? '90deg' : index === 2 ? '0deg' : '90deg'})  
+              transform: `rotate(${index === 0 ? '90deg' : index === 1 ? '0deg' : index === 2 ? '90deg' : '0deg'})  
                           translate(${card.index === 0 ? '0px, 50px' : card.index === 1 ? '0px, -50px' : card.index === 2 ? '0px, -50px' : '0px, 50px'})`, // Adjusted rotation and translation
               zIndex: index === 0 ? '3' : index === 1 ? '2' : index === 2 ? '1' : '0',
               cursor: 'pointer' // Cursor style for indicating clickability
@@ -180,7 +179,6 @@ const playCard = (index) => {
                   style={{ width: '80px' }}
                 />
               </div>
-              </div>
             );
           })}
         </div>
@@ -188,5 +186,4 @@ const playCard = (index) => {
     </div>
   );
 };
-
 export default JassGame;
