@@ -24,11 +24,11 @@ export const LoginComponent = (props) => {
   };
 
   const handleNewRoomClick = () => {
-    navigate("/new-room"); // Navigiere zur Route "/new-room" ohne einen Gamecode zu übergeben
+    navigate("/form");
   };
 
-  const handleJoinRoomClick = () => {
-    navigate("/join-room"); // Navigiere zur Route "/join-room", um einem bestehenden Raum beizutreten
+  const handleImpressumClick = () => {
+    navigate("/impressum");
   };
 
   return (
@@ -36,14 +36,18 @@ export const LoginComponent = (props) => {
       <HeaderComponent username={props.user.username} />
       <div className="PageWrapper" style={{ 
         backgroundImage: `url(${backgroundpicture})`, 
-        backgroundSize: 'contain', 
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundAttachment: 'fixed', // Hier wird die Hintergrundbefestigung auf 'fixed' gesetzt
-        height: '80vh', // Hier wird die Höhe auf '100vh' festgelegt
+        backgroundAttachment: 'fixed', 
+        height: '80vh',
+        display: 'flex',
+        justifyContent: 'flex-end',
       }}>
         <div className="LoginWrapper">
-          <Card sx={{ width: 400, padding: 1 }}>
-            <Typography variant="h5">Gebe deinen Namen ein:</Typography>
+          <Card sx={{ height: 450, width: 400, padding: 1 }}>
+            <Typography variant="h5" style={{ marginTop: '10px', marginBottom: '10px' }}>
+              Gebe deinen Namen ein:
+            </Typography>
             <CardContent>
               <GenericInput
                 value={credentials.username}
@@ -55,13 +59,24 @@ export const LoginComponent = (props) => {
               disabled={!credentials.username}
               variant="contained"
               onClick={handleNewRoomClick}
+              style={{ marginTop: '10px' }}
             >
-              Neuer Raum
+              Spielkarten auswählen
             </Button>
+            <div style={{ marginTop: '20px', textAlign: 'left' }}>
+              <Typography variant="body2" style={{ textAlign: 'left' }}>
+                Willkommen beim Jassen, dem beliebten Kartenspiel, das in der ganzen Schweiz und in anderen alemannischen Regionen gespielt wird! Mit 36 Karten und vier Spielern bringt Jassen Menschen zusammen und ist ein wichtiger Teil unserer kulturellen Tradition. Aus diesem Grund kann man hier je nach Kanton, in dem man lebt oder aufgewachsen ist, die entsprechenden Karten wählen und die Regeln anpassen. Also, schnapp dir deine Karten und lass die Spiele beginnen – Jassen verbindet und begeistert!
+              </Typography>
+            </div>
+            <div style={{ marginTop: '20px' }}>
+              <Typography variant="body2" onClick={handleImpressumClick} style={{ cursor: 'pointer' }}>
+                Impressum
+              </Typography>
+            </div>
           </Card>
         </div>
       </div>
-      <FooterComponent></FooterComponent>
+      <FooterComponent />
     </>
   );
 };
