@@ -10,8 +10,8 @@ export const LogoutComponent = (props) => {
       <HeaderComponent user={props.username} />
       <div className="PageWrapper">
         <div className="LoginWrapper">
-          <Typography variant="h5">You have been logged out!</Typography>
-          <Link to="/">Back to Login</Link>
+          <Typography variant="h5">Du bist abgemeldet</Typography>
+          <Link to="/">Zurück zum Login</Link>
         </div>
       </div>
       <FooterComponent></FooterComponent>
