@@ -46,9 +46,6 @@ const JassGame = (props) => {
   const [hands, setHands] = useState(Array.from({ length: 4 }, () => [])); // Initialize hands with empty arrays
   const [trumpSuit, setTrumpSuit] = useState(null);
 
-  useEffect(() => {
-    socket.emit('joinGame', props.playerName);
-  }, []);
   // Deal cards to four players
   const dealCards = () => {
     let newDeck = shuffleDeck(createDeck());
