@@ -39,7 +39,7 @@ const getCardImage = (index, deckType) => {
   return `${baseUrl}${imageIndex}.png`;
 };
 
-const JassGame = () => {
+const JassGame = (props) => {
   const [deckType, setDeckType] = useState('French');
   const [selectedPlayer, setSelectedPlayer] = useState(0);
   const [playedCards, setPlayedCards] = useState([]);

@@ -1,5 +1,6 @@
 // App.jsx
 import "./App.css";
+import io from 'socket.io-client';
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom"; // BrowserRouter entfernt
 
@@ -8,6 +9,8 @@ import { Main } from "./components/main/Main";
 import { LoginComponent } from "./components/login/LoginComponent";
 import { FormComponent } from "./components/form/FormComponent";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
+const socket = io('https://jass-schweiz.vercel.app/api');
+
 
 function App() {
   const [playername, setplayername] = useState(""); // Standardwert als leerer String
