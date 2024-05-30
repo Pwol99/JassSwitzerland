@@ -39,13 +39,16 @@ const getCardImage = (index, deckType) => {
   return `${baseUrl}${imageIndex}.png`;
 };
 
-const JassGame = () => {
+const JassGame = (props) => {
   const [deckType, setDeckType] = useState('French');
   const [selectedPlayer, setSelectedPlayer] = useState(0);
   const [playedCards, setPlayedCards] = useState([]);
   const [hands, setHands] = useState(Array.from({ length: 4 }, () => [])); // Initialize hands with empty arrays
   const [trumpSuit, setTrumpSuit] = useState(null);
 
+  useEffect(() => {
+    socket.emit('joinGame', props.playerName);
+  }, [props.playerName]);
   // Deal cards to four players
   const dealCards = () => {
     let newDeck = shuffleDeck(createDeck());
