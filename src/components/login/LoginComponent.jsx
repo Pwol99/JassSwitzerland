@@ -10,8 +10,6 @@ import backgroundpicture from "../../Backgroundpicture.jpeg";
 export const LoginComponent = ({playername, setplayername}) => {
   const navigate = useNavigate();
 
-  // const [username, setUsername] = useState("");
-
   const handleUserChange = (event) => {
     setplayername(event.target.value);
   };

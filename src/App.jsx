@@ -5,7 +5,6 @@ import { Main } from "./components/main/Main";
 import { LoginComponent } from "./components/login/LoginComponent";
 import { LogoutComponent } from "./components/login/LogoutComponent";
 import { FormComponent } from "./components/form/FormComponent";
-import { defaultData } from "./data/tableData";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
       <Route
         path="/impressum"
         element={
-          <FormComponent
+          <ImpressumComponent
             playername={playername}
           />
         }
@@ -43,7 +42,7 @@ function App() {
       <Route
         path="/main"
         element={
-          <FormComponent
+          <Main
             playername={playername}
           />
         }
