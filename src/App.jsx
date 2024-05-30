@@ -1,6 +1,9 @@
+// App.jsx
 import "./App.css";
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom"; // BrowserRouter entfernt
+
+// Importiere die Komponenten
 import { Main } from "./components/main/Main";
 import { LoginComponent } from "./components/login/LoginComponent";
 import { FormComponent } from "./components/form/FormComponent";
@@ -17,27 +20,15 @@ function App() {
       />
       <Route
         path="/form"
-        element={
-          <FormComponent
-            playername={playername}
-          />
-        }
+        element={<FormComponent playername={playername} />}
       />
       <Route
         path="/impressum"
-        element={
-          <ImpressumComponent
-            playername={playername}
-          />
-        }
+        element={<ImpressumComponent playername={playername} />}
       />
       <Route
         path="/main"
-        element={
-          <Main
-            playername={playername}
-          />
-        }
+        element={<Main playername={playername} />}
       />
     </Routes>
   );

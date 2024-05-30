@@ -1,54 +1,41 @@
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
-import L from 'leaflet';
+import { useNavigate } from "react-router-dom";
 
 export const FormComponent = (props) => {
-  const onEachFeature = (feature, layer) => {
-    if (feature.properties && feature.properties.kan_name) {
-      let originalStyle = null;
-      layer.on({
-        mouseover: (event) => {
-          originalStyle = event.target.options.style;
-          layer.setStyle({
-            fillOpacity: 0.2
-          });
+  const navigate = useNavigate();
 
- 
-          const popup = L.popup({
-            autoPan: true,
-            autoPanPadding: [100, 100], 
-            closeButton: false 
-          })
-            .setLatLng(layer.getBounds().getCenter())
-            .setContent(generatePopupContent(feature))
-            .openOn(layer._map);
-        },
-        mouseout: (event) => {
-          event.target.setStyle(originalStyle);
-          layer._map.closePopup();
-        }
-      });
-    }
+  const handleMainPageNavigation = () => {
+    console.log("Button clicked");
+    navigate("/main");
   };
 
-
-  const generatePopupContent = (feature) => {
+  const PopupContent = ({ feature }) => {
     const kanType = feature.properties.Jasskarten_typ;
     const language = kanType === 'ger' ? 'Deutsch' : 'Französisch';
 
-    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${language}<br/>`;
+    return (
+      <div>
+        <b>Kanton:</b> {feature.properties.NAME}<br/>
+        <b>Jasskarten Typ:</b> {language}<br/>
+        <button onClick={handleMainPageNavigation}>Zur Hauptseite</button>
+      </div>
+    );
   };
-
 
   const geoJsonStyle = {
     color: '#000000',
     weight: 1,
-    fillOpacity: 0
+    fill: true, // Fill the area
+    fillOpacity: 0.5, // Set fill opacity to make the area clickable
+    fillColor: '#FFFFFF',
+    interactive: true // Enable mouse events on the entire polygon area
   };
 
   return (
@@ -68,12 +55,22 @@ export const FormComponent = (props) => {
           maxZoom={8}
           maxBounds={[[45.8182, 5.2275], [47.8182, 11.2275]]}
           zoomControl={false}
+          preferCanvas={true} // Prefer canvas rendering
         >
           <TileLayer
             attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>, USGS, NOAA'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
           />
-          <GeoJSON data={cantonsGeoJSON} style={geoJsonStyle} onEachFeature={onEachFeature} />
+          <GeoJSON
+            data={cantonsGeoJSON}
+            style={geoJsonStyle}
+            onEachFeature={(feature, layer) => {
+              if (feature.properties && feature.properties.NAME) {
+                const popupContent = <PopupContent feature={feature} />;
+                layer.bindPopup(ReactDOMServer.renderToString(popupContent)); // Bind popup to each feature
+              }
+            }}
+          />
         </MapContainer>
       </div>
       <FooterComponent />
