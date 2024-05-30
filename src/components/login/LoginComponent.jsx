@@ -11,6 +11,7 @@ export const LoginComponent = (props) => {
 
   const [credentials, setCredentials] = useState({
     username: "",
+    gameCode: null,
   });
 
   const handleUserChange = (event) => {
@@ -20,6 +21,23 @@ export const LoginComponent = (props) => {
     const stateName = name === "Name" ? "username" : name;
 
     setCredentials((prevCredentials) => ({ ...prevCredentials, [stateName]: value }));
+  };
+
+  const generateGameCode = () => {
+    // Zufälligen 6-stelligen Gamecode generieren
+    const min = 100000;
+    const max = 999999;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const handleNewRoomClick = () => {
+    const newGameCode = generateGameCode();
+    setCredentials((prevCredentials) => ({ ...prevCredentials, gameCode: newGameCode }));
+    navigate("/new-room", { state: { gameCode: newGameCode } }); // Navigiere zur Route "/new-room" mit der neuen Game-ID
+  };
+
+  const handleJoinRoomClick = () => {
+    navigate("/join-room"); // Navigiere zur Route "/join-room", um einem bestehenden Raum beizutreten
   };
 
   return (
@@ -39,17 +57,21 @@ export const LoginComponent = (props) => {
             <Button
               disabled={!credentials.username}
               variant="contained"
-              onClick={() => {
-                props.setUser(credentials);
-                navigate("/form");
-              }}
+              onClick={handleNewRoomClick}
             >
-              Login
+              Neuer Raum
+            </Button>
+            <Button
+              disabled={!credentials.username}
+              variant="contained"
+              onClick={handleJoinRoomClick}
+            >
+              Bestehendem Raum beitreten
             </Button>
           </Card>
         </div>
       </div>
-      <FooterComponent></FooterComponent>
+      <FooterComponent gameCode={credentials.gameCode} /> {/* Übergebe die Game-ID als Prop an den Footer */}
     </>
   );
 };
