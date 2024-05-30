@@ -14,7 +14,7 @@ export const ImpressumComponent = (props) => {
           <h1>Impressum</h1>
           <section>
             <h2>Autoren</h2>
-            <p>Studierende 4 Semester Geomatik Bsc.<br />
+            <p>Studierende 4. Semester Geomatik Bsc.<br />
             Gian Luca Schmid, Sina Kägi, Vania Pereira, Patrick Würsten</p>
           </section>
           <section>
@@ -24,18 +24,18 @@ export const ImpressumComponent = (props) => {
           </section>
           <section>
             <h2>Entstehung</h2>
-            <p>Hackathlon 2024, FHNW Muttenz</p>
+            <p>GeoHackathon 2024, FHNW Muttenz</p>
           </section>
         </div>
         <div style={{ paddingTop: '20px', marginTop: '50px' }}>
           <section>
             <h2>Bilder</h2>
-            <p>Die verwendeten Bilder sind alle mit AI Generiert.<br />
+            <p>Die verwendeten Bilder sind alle mit AI generiert.<br />
             Die Jasskarten entstammen der Sammlung von <a href="https://www.jassportal.ch" target="_blank" rel="noopener noreferrer">Jassportal.ch</a>.</p>
           </section>
           <section>
-            <h2>Warum Jassen</h2>
-            <p>Das Problem bei Jassen mit Personen aus unterschiedlichen Kantonen ist altbekannt, gewisse Jassen mit Deutschschweizerkarten andere mit Französischen. Diesem wollen wir abhilfe schaffen. Aktuell wird noch gegen einen Computer gespielt toll wäre eine weiter entwicklung gegen echte Spieler und jeder Spieler sieht die Karten die er besser spielen kann.</p>
+            <h2>Warum jassen?</h2>
+            <p>Das Problem beim jassen mit Personen aus unterschiedlichen Kantonen ist altbekannt, gewisse jassen mit Deutschschweizerkarten andere mit Französischen. Diesem Problem wollen wir Abhilfe schaffen. Aktuell wird noch gegen einen Computer gespielt, toll wäre eine weitere Entwicklung gegen echte Spieler und jeder Spieler sieht die Karten mit denen er am meisten vertraut ist.</p>
           </section>
         </div>
       </div>
