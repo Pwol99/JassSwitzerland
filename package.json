@@ -9,6 +9,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "d3": "^7.9.0",
+    "html2canvas": "^1.4.1",
+    "leaflet": "^1.9.4",
+    "plotly.js": "^2.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
@@ -38,5 +42,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Wir haben in der Lektion 5 die beiden Bibliotheken \"Material UI (MUI)\" und \"React Router\" kennen gelernt. Mit diesen können wir die Geoharvester-Applikation aus der letzten Übung erweitern und mit Komponenten aus der UI-Bibliothek standardisieren. Zuletzt verwenden wir Formulare und komplexen State um Daten der Tabelle hinzuzufügen.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
