@@ -38,7 +38,7 @@ function App() {
         path="/main"
         element={
           <Main
-            playername={playername}
+            playername={playername} setplayername={setplayername}
           />
         }
       />
