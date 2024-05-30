@@ -7,23 +7,17 @@ import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
 import backgroundpicture from "../../Backgroundpicture.jpeg";
 
-export const LoginComponent = (props) => {
+export const LoginComponent = ({playername, setplayername}) => {
   const navigate = useNavigate();
 
-  const [credentials, setCredentials] = useState({
-    username: ""
-  });
+  // const [username, setUsername] = useState("");
 
   const handleUserChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    const stateName = name === "Name" ? "username" : name;
-
-    setCredentials((prevCredentials) => ({ ...prevCredentials, [stateName]: value }));
+    setplayername(event.target.value);
   };
 
-  const handleNewRoomClick = () => {
+  const handleNewRoomClick = (event) => {
+    setplayername(event.target.value)
     navigate("/form");
   };
 
@@ -33,7 +27,7 @@ export const LoginComponent = (props) => {
 
   return (
     <>
-      <HeaderComponent username={props.user.username} />
+      <HeaderComponent playername={playername} />
       <div className="PageWrapper" style={{ 
         backgroundImage: `url(${backgroundpicture})`, 
         backgroundSize: 'cover',
@@ -50,13 +44,13 @@ export const LoginComponent = (props) => {
             </Typography>
             <CardContent>
               <GenericInput
-                value={credentials.username}
+                value={playername}
                 onChange={handleUserChange}
                 name="Name"
               />
             </CardContent>
             <Button
-              disabled={!credentials.username}
+              disabled={!playername}
               variant="contained"
               onClick={handleNewRoomClick}
               style={{ marginTop: '10px' }}
@@ -80,3 +74,5 @@ export const LoginComponent = (props) => {
     </>
   );
 };
+
+export default LoginComponent;

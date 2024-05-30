@@ -4,11 +4,11 @@ import { FooterComponent } from "../FooterComponent";
 import "../../Styles.css";
 
 export const ImpressumComponent = (props) => {
-  const username = props.user?.username || "";
+  const playername = props.playername || "";
 
   return (
     <>
-      <HeaderComponent username={username} />
+      <HeaderComponent playername={playername} />
       <div className="ImpressumWrapper" style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
         <div>
           <h1>Impressum</h1>

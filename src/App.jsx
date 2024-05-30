@@ -9,48 +9,42 @@ import { defaultData } from "./data/tableData";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
 
 function App() {
-  const noUser = { username: "", password: "" };
-  const [user, setUser] = useState(noUser);
-  const [tableData, setTableData] = useState(defaultData);
+  // const noUser = { username: "", password: "" };
+  const [playername, setplayername] = useState()
+  //const [user, setUser] = useState(noUser);
+  //const [tableData, setTableData] = useState(defaultData);
 
-  const handleLogout = () => setUser(noUser);
+ // const handleLogout = () => setUser(noUser);
 
-  const addToTableData = (newData) => setTableData([newData, ...tableData]);
+ // const addToTableData = (newData) => setTableData([newData, ...tableData]);
 
   return (
     <Routes>
       <Route
         path="/"
-        element={<LoginComponent user={user} setUser={setUser} />}
+        element={<LoginComponent playername={playername} setplayername={setplayername} />}
       />
       <Route
         path="/form"
         element={
           <FormComponent
-            username={user.username}
-            addToTableData={addToTableData}
+            playername={playername}
           />
         }
       />
       <Route
         path="/impressum"
         element={
-          <ImpressumComponent
-            username={user.username}
-            addToTableData={addToTableData}
+          <FormComponent
+            playername={playername}
           />
         }
       />
       <Route
         path="/main"
-        element={<Main username={user.username} tableData={tableData} />}
-      />
-      <Route
-        path="/logout"
         element={
-          <LogoutComponent
-            handleLogout={handleLogout}
-            username={user.username}
+          <FormComponent
+            playername={playername}
           />
         }
       />
