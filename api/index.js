@@ -1,10 +1,14 @@
+const { Server } = require('socket.io');
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 let gameState = {
   players: [],
@@ -43,6 +47,6 @@ const startGame = () => {
   io.emit('updateGame', gameState);
 };
 
-server.listen(5000, () => {
-  console.log('Server is running on port 5000');
-});
+module.exports = (req, res) => {
+  res.status(200).send("Server is running");
+};
