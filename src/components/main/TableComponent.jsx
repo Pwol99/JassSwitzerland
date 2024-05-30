@@ -42,6 +42,9 @@ const JassGame = () => {
   const [deck, setDeck] = useState(shuffleDeck(createDeck()));
   const [hands, setHands] = useState([[], [], [], []]);
   const [deckType, setDeckType] = useState('French');
+  const [selectedPlayer, setSelectedPlayer] = useState(0);
+  const [playedCards, setPlayedCards] = useState([]);
+  const [playerPlayedCard, setPlayerPlayedCard] = useState(null);
 
   // Deal cards to four players
   const dealCards = () => {
@@ -66,32 +69,74 @@ const JassGame = () => {
     setDeckType(deckType === 'French' ? 'Swiss' : 'French');
   };
 
+  // Play a card from the player's hand
+  const playCard = (index) => {
+    const card = hands[selectedPlayer][index];
+    setPlayerPlayedCard(card);
+    const updatedHands = [...hands];
+    updatedHands[selectedPlayer].splice(index, 1);
+    setHands(updatedHands);
+
+    // Select a random card from each of the other players' hands
+    const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
+    const playedCards = otherPlayers.map((playerHand, playerIndex) => {
+      const randomIndex = Math.floor(Math.random() * playerHand.length);
+      const randomCard = playerHand[randomIndex];
+      playerHand.splice(randomIndex, 1); // Remove card from player's hand
+      return { ...randomCard, index: playerIndex }; // Assigning index for each played card
+    });
+    setPlayedCards(playedCards);
+  };
+
   return (
-    <div>
-      <h1>Jass Game</h1>
-      <button onClick={startGame}>Start Game</button>
-      <button onClick={toggleDeckType}>
-        Switch to {deckType === 'French' ? 'Swiss' : 'French'} Deck
-      </button>
-      {hands.map((hand, playerIndex) => (
-        <div key={playerIndex}>
-          <h2>Player {playerIndex + 1} Hand</h2>
-          <div style={{ display: 'flex' }}>
-            {hand.map((card, index) => {
-              const cardIndex = getCardIndex(card);
-              return (
-                <div key={index} style={{ margin: '10px' }}>
-                  <img
-                    src={getCardImage(cardIndex, deckType)}
-                    alt={`${card.value} of ${card.suit}`}
-                    style={{ width: '100px' }}
-                  />
-                </div>
-              );
-            })}
-          </div>
+    <div style={{ backgroundColor: 'black', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ marginTop: '20px', color: 'white' }}>
+        <button onClick={startGame}>Start Game</button>
+        <button onClick={toggleDeckType} style={{ marginLeft: '10px' }}>
+          Switch to {deckType === 'French' ? 'Swiss' : 'French'} Deck
+        </button>
+        <label htmlFor="playerSelect" style={{ marginLeft: '10px' }}>Select Player:</label>
+        <select id="playerSelect" value={selectedPlayer} onChange={(e) => setSelectedPlayer(parseInt(e.target.value))}>
+          {hands.map((hand, index) => (
+            <option key={index} value={index}>Player {index + 1}</option>
+          ))}
+        </select>
+      </div>
+      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', flex: '1' }}>
+        {playedCards.map((card, index) => (
+          <img
+            key={index}
+            src={getCardImage(getCardIndex(card), deckType)}
+            alt={`${card.value} of ${card.suit}`}
+            style={{
+              width: '80px',
+              position: 'absolute',
+              top: 'calc(50% - 40px)',
+              left: 'calc(50% - 40px)',
+              transform: `rotate(${index === 0 ? '0deg' : index === 1 ? '0deg' : index === 2 ? '0deg' : '0deg'}) 
+                          translate(${index === 0 ? '0px, 00px' : index === 1 ? '0px, 0px' : index === 2 ? '0px, 0px' : '0px, 0px'})`, // Adjusted rotation and translation
+              zIndex: index === 1 || index === 3 ? '1' : '0',
+            }}
+          />
+        ))}
+      </div>
+      <div style={{ marginTop: '20px', marginBottom: '20px', color: 'white' }}> 
+        <h2>Player {selectedPlayer + 1} Hand</h2>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {hands[selectedPlayer].map((card, index) => {
+            const cardIndex = getCardIndex(card);
+            return (
+              <div key={index} style={{ margin: '5px', cursor: 'pointer' }} onClick={() => playCard(index)}>
+                <img
+                  src={getCardImage(cardIndex, deckType)}
+                  alt={`${card.value} of ${card.suit}`}
+                  style={{ width: '80px' }}
+                />
+              </div>
+            );
+          })}
         </div>
-      ))}
+      </div>
     </div>
   );
 };
