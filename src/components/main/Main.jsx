@@ -1,4 +1,3 @@
-import { FooterComponent } from "./FooterComponent";
 import JassGame, { TableComponent } from "./TableComponent";
 import { HeaderComponent } from "../HeaderComponent";
 
@@ -7,7 +6,6 @@ export const Main = (props) => {
     <div className="App">
       <HeaderComponent username={props.username} />
       <JassGame />
-      <FooterComponent />
     </div>
   );
 };
