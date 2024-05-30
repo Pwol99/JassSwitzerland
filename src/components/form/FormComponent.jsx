@@ -8,7 +8,6 @@ import cantonsGeoJSON from "./../../data/kantone.json";
 import L from 'leaflet';
 
 export const FormComponent = (props) => {
-  // Funktion, um Popup-Fenster zu jedem Kanton hinzuzufügen und Maus-Interaktionen zu definieren
   const onEachFeature = (feature, layer) => {
     if (feature.properties && feature.properties.kan_name) {
       let originalStyle = null;
@@ -19,11 +18,11 @@ export const FormComponent = (props) => {
             fillOpacity: 0.2
           });
 
-          // Popup zentrieren und ohne Close-Button anzeigen
+ 
           const popup = L.popup({
             autoPan: true,
-            autoPanPadding: [100, 100], // Padding to keep the popup in the center
-            closeButton: false // Kein Close-Button anzeigen
+            autoPanPadding: [100, 100], 
+            closeButton: false 
           })
             .setLatLng(layer.getBounds().getCenter())
             .setContent(generatePopupContent(feature))
@@ -37,10 +36,10 @@ export const FormComponent = (props) => {
     }
   };
 
-  // Funktion zur Generierung des Popup-Inhalts basierend auf dem Jasskarten-Typ
+
   const generatePopupContent = (feature) => {
     const kanType = feature.properties.Jasskarten_typ;
-    const language = kanType === 'ger' ? 'Deutsch' : 'Französisch'; // Ändere 'Ger' zu 'ger'
+    const language = kanType === 'ger' ? 'Deutsch' : 'Französisch';
 
     return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${language}<br/>`;
   };
