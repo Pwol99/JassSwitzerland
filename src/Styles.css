@@ -12,7 +12,9 @@
     text-align: center;
     min-height: 100vh;
     background-color: #f0f0f0;
+    position: relative; /* Hinzugefügt */
 }
+
 
 .App-header {
     color: #007cc3;
