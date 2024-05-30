@@ -11,7 +11,7 @@ export const FormComponent = (props) => {
   // Funktion, um Popup-Fenster zu jedem Kanton hinzuzufügen und Maus-Interaktionen zu definieren
   const onEachFeature = (feature, layer) => {
     if (feature.properties && feature.properties.kan_name) {
-    let originalStyle = null;
+      let originalStyle = null;
       layer.on({
         mouseover: (event) => {
           originalStyle = event.target.options.style;
@@ -19,13 +19,14 @@ export const FormComponent = (props) => {
             fillOpacity: 0.2
           });
 
-          // Popup zentrieren
+          // Popup zentrieren und ohne Close-Button anzeigen
           const popup = L.popup({
             autoPan: true,
-            autoPanPadding: [100, 100] // Padding to keep the popup in the center
+            autoPanPadding: [100, 100], // Padding to keep the popup in the center
+            closeButton: false // Kein Close-Button anzeigen
           })
             .setLatLng(layer.getBounds().getCenter())
-            .setContent(`<b>Kanton:</b> ${feature.properties.kan_name}`)
+            .setContent(props.language === 'Ger' ? generatePopupContentGer(feature) : generatePopupContentFra(feature))
             .openOn(layer._map);
         },
         mouseout: (event) => {
@@ -34,6 +35,16 @@ export const FormComponent = (props) => {
         }
       });
     }
+  };
+
+  // Funktion zur Generierung des Popup-Inhalts auf Deutsch
+  const generatePopupContentGer = (feature) => {
+    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${feature.properties.Jasskarten_typ}`;
+  };
+
+  // Funktion zur Generierung des Popup-Inhalts auf Französisch
+  const generatePopupContentFra = (feature) => {
+    return `<b>Kanton:</b> ${feature.properties.kan_name}<br/><b>Jasskarten Typ:</b> ${feature.properties.Jasskarten_typ}`;
   };
 
   const geoJsonStyle = {
@@ -51,9 +62,10 @@ export const FormComponent = (props) => {
           zoom={8}
           scrollWheelZoom={false}
           style={{ width: "100%", height: "100%" }}
-          minZoom={7}
-          maxZoom={10}
+          minZoom={8}
+          maxZoom={8}
           maxBounds={[[45.8182, 5.2275], [47.8182, 11.2275]]}
+          zoomControl={false}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>, USGS, NOAA'
