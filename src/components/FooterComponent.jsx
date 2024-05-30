@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../Styles.css";
+import "../Styles.css";
 
 export const FooterComponent = () => {
   const navigate = useNavigate();

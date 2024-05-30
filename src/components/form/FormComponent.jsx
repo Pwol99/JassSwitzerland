@@ -6,6 +6,7 @@ import { DropdownCantons } from "./DropdownCantons";
 import { DropdownServices } from "./DropdownServices";
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
+import { FooterComponent } from "../FooterComponent";
 
 export const FormComponent = (props) => {
   const defaultData = {
@@ -85,6 +86,7 @@ export const FormComponent = (props) => {
           </CardContent>
         </Card>
       </div>
+      <FooterComponent></FooterComponent>
     </>
   );
 };
