@@ -6,7 +6,6 @@ import { Main } from "./components/main/Main";
 import { LoginComponent } from "./components/login/LoginComponent";
 import { FormComponent } from "./components/form/FormComponent";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
-const socket = io('https://https://jass-schweiz.vercel.app/api');
 
 
 function App() {
