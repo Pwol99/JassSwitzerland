@@ -48,7 +48,7 @@ const JassGame = (props) => {
 
   useEffect(() => {
     socket.emit('joinGame', props.playerName);
-  }, [props.playerName]);
+  }, []);
   // Deal cards to four players
   const dealCards = () => {
     let newDeck = shuffleDeck(createDeck());
