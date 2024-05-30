@@ -7,7 +7,7 @@ import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
 import backgroundpicture from "../../Backgroundpicture.jpeg";
 
-export const LoginComponent = ({playername, setplayername}) => {
+export const LoginComponent = ({ playername, setplayername }) => {
   const navigate = useNavigate();
 
   const handleUserChange = (event) => {
@@ -16,6 +16,7 @@ export const LoginComponent = ({playername, setplayername}) => {
 
   const handleNewRoomClick = (event) => {
     setplayername(event.target.value)
+    console.log("Playername:", event.target.value); // Hier hinzugefügt
     navigate("/form");
   };
 

@@ -4,8 +4,8 @@ import logo from "../Jasslogo.png";
 import fhnw from "../logofhnw.png";
 import "../Styles.css";
 
-export const HeaderComponent = (props) => {
-  console.log(props.playername);
+export const HeaderComponent = ({playername}) => {
+  console.log({playername});
   return (
     <AppBar position="static">
       <Toolbar className="App-header">
@@ -19,7 +19,7 @@ export const HeaderComponent = (props) => {
           Das Schweizer Jassgame
         </div>
         <div className="HeaderText" id="Username">
-          <Typography variant="subtitle1">{props.username}</Typography>
+          <Typography variant="subtitle1">{playername}</Typography>
         </div>
       </Toolbar>
     </AppBar>

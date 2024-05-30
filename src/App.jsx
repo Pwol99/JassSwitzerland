@@ -3,19 +3,11 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Main } from "./components/main/Main";
 import { LoginComponent } from "./components/login/LoginComponent";
-import { LogoutComponent } from "./components/login/LogoutComponent";
 import { FormComponent } from "./components/form/FormComponent";
 import { ImpressumComponent } from "./components/impressum/ImpressumComponent";
 
 function App() {
-  // const noUser = { username: "", password: "" };
   const [playername, setplayername] = useState()
-  //const [user, setUser] = useState(noUser);
-  //const [tableData, setTableData] = useState(defaultData);
-
- // const handleLogout = () => setUser(noUser);
-
- // const addToTableData = (newData) => setTableData([newData, ...tableData]);
 
   return (
     <Routes>

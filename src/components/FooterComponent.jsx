@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import "../Styles.css";
 import logog2022 from "../geomaticlogo.png";
 
