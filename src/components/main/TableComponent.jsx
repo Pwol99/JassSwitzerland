@@ -70,23 +70,25 @@ const JassGame = () => {
   };
 
   // Play a card from the player's hand
-  const playCard = (index) => {
-    const card = hands[selectedPlayer][index];
-    setPlayerPlayedCard(card);
-    const updatedHands = [...hands];
-    updatedHands[selectedPlayer].splice(index, 1);
-    setHands(updatedHands);
+  // Play a card from the player's hand
+const playCard = (index) => {
+  const card = hands[selectedPlayer][index];
+  const updatedHands = [...hands];
+  updatedHands[selectedPlayer].splice(index, 1);
+  setHands(updatedHands);
 
-    // Select a random card from each of the other players' hands
-    const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
-    const playedCards = otherPlayers.map((playerHand, playerIndex) => {
-      const randomIndex = Math.floor(Math.random() * playerHand.length);
-      const randomCard = playerHand[randomIndex];
-      playerHand.splice(randomIndex, 1); // Remove card from player's hand
-      return { ...randomCard, index: playerIndex }; // Assigning index for each played card
-    });
-    setPlayedCards(playedCards);
-  };
+  // Select a random card from each of the other players' hands
+  const otherPlayers = hands.filter((_, i) => i !== selectedPlayer);
+  const playedCards = otherPlayers.map((playerHand, playerIndex) => {
+    const randomIndex = Math.floor(Math.random() * playerHand.length);
+    const randomCard = playerHand[randomIndex];
+    playerHand.splice(randomIndex, 1); // Remove card from player's hand
+    return { ...randomCard, index: playerIndex }; // Assigning index for each played card
+  });
+
+  // Add player's played card to the played cards list
+  setPlayedCards([...playedCards, { ...card, index: 3 }]);
+};
 
   return (
     <div style={{ backgroundColor: 'black', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -113,9 +115,9 @@ const JassGame = () => {
               position: 'absolute',
               top: 'calc(50% - 40px)',
               left: 'calc(50% - 40px)',
-              transform: `rotate(${index === 0 ? '0deg' : index === 1 ? '0deg' : index === 2 ? '0deg' : '0deg'}) 
-                          translate(${index === 0 ? '0px, 00px' : index === 1 ? '0px, 0px' : index === 2 ? '0px, 0px' : '0px, 0px'})`, // Adjusted rotation and translation
-              zIndex: index === 1 || index === 3 ? '1' : '0',
+              transform: `rotate(${index === 0 ? '90deg' : index === 1 ? '0deg' : index === 2 ? '90deg' : '0deg'})  
+                          translate(${card.index === 0 ? '0px, 50px' : card.index === 1 ? '0px, -50px' : card.index === 2 ? '0px, -50px' : '0px, 50px'})`, // Adjusted rotation and translation
+              zIndex: index === 0 ? '3' : index === 1 ? '2' : index === 2 ? '1' : '0'
             }}
           />
         ))}
@@ -132,7 +134,7 @@ const JassGame = () => {
                   alt={`${card.value} of ${card.suit}`}
                   style={{ width: '80px' }}
                 />
-              </div>
+                            </div>
             );
           })}
         </div>
