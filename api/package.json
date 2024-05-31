@@ -1,13 +1,11 @@
 {
-  "name": "jass-game",
+  "name": "your-app",
   "version": "1.0.0",
-  "main": "api/index.js",
   "scripts": {
-    "start": "node api/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "http": "^0.0.1-security",
-    "socket.io": "^4.0.0"
+    "socket.io": "^4.3.1"
   }
 }

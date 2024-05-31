@@ -6,7 +6,7 @@ import { Button, Modal, FormControl, InputLabel, Select, MenuItem, Box, Typograp
 import "../../Styles.css";
 
 // Connect to the backend WebSocket server
-const socket = io('http://localhost:3001');
+const socket = io('https://jass-schweiz.vercel.app/api');
 
 const joinGame = (playerName) => {
   socket.emit('joinGame', playerName); // Pass playerName instead of playooor
