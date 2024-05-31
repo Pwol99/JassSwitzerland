@@ -1,5 +1,5 @@
 import "../Styles.css";
-import logog2022 from "../geomaticlogo.png";
+import logog2022 from "../data/geomaticlogo.png";
 
 export const FooterComponent = () => {
   return (

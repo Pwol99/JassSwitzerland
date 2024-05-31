@@ -4,7 +4,7 @@ import { Card, Button, CardContent, Typography } from "@mui/material";
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
-import backgroundpicture from "../../Backgroundpicture.jpeg";
+import backgroundpicture from "../../data/Backgroundpicture.jpeg";
 
 export const LoginComponent = ({ playername, setplayername }) => {
   const navigate = useNavigate();

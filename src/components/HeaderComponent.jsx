@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import logo from "../Jasslogo.png";
-import fhnw from "../logofhnw.png";
+import logo from "../data/Jasslogo.png";
+import fhnw from "../data/logofhnw.png";
 import "../Styles.css";
 
 export const HeaderComponent = ({playername}) => {
