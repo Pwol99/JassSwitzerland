@@ -7,6 +7,10 @@ import 'leaflet/dist/leaflet.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
+import französisch1 from "./../../data/Franzoesisch_1.json"
+import französisch2 from "./../../data/Franzoesisch_2.json"
+import französisch3 from "./../../data/Franzoesisch_3.json"
+import deutsch from "./../../data/Deutsch.json"
 import { useNavigate } from "react-router-dom";
 
 const importImages = (name) => {
@@ -53,7 +57,6 @@ export const FormComponent = (props) => {
       </div>
     );
   };
-  
 
   const geoJsonStyle = {
     color: '#000000',
@@ -95,7 +98,7 @@ export const FormComponent = (props) => {
             }}
           />
         </MapContainer>
-        <Popup open={!!popupData} closeOnDocumentClick onClose={() => setPopupData(null)} style={{ width: "100px", height: "150px" }}>
+        <Popup open={!!popupData} closeOnDocumentClick onClose={() => setPopupData(null)} >
           <PopupContent />
         </Popup>
       </div>
