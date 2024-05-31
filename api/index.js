@@ -333,6 +333,6 @@ const shuffleDeck = (deck) => {
   return deck;
 };
 
-server.listen(3001, () => {
+server.listen(process.env.PORT, () => {
   console.log('Server is running on port 3001');
 });
