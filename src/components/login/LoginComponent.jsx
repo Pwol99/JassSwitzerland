@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GenericInput } from "../InputComponent";
 import { Card, Button, CardContent, Typography } from "@mui/material";

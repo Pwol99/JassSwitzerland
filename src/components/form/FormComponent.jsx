@@ -9,12 +9,10 @@ import 'reactjs-popup/dist/index.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
 import { useNavigate } from "react-router-dom";
 
-// Funktion zum dynamischen Importieren von Bildern aus dem Dateisystem
 const importImages = (name) => {
   try {
     return require(`../../data/Flag_of_Canton_of_${name}.png`);
   } catch (error) {
-    // Wenn das Bild nicht gefunden wurde, gib ein Standardbild zurück
     return require(`../../data/default.png`);
   }
 };
@@ -26,6 +24,11 @@ export const FormComponent = (props) => {
   const handleMainPageNavigation = () => {
     console.log("Button clicked");
     navigate("/main");
+    // Übergeben Sie jasskarten_typ an App.jsx
+    if (popupData) {
+      props.setJasskartentyp(popupData.Jasskarten_typ);
+      console.log("jasskarten_typ:", popupData.Jasskarten_typ);
+    }
   };
 
   const handleFeatureClick = (feature) => {
@@ -45,7 +48,6 @@ export const FormComponent = (props) => {
           <button onClick={handleMainPageNavigation}>Zur Hauptseite</button>
         </div>
         <div className="popup-flag">
-          {/* Lade das Bild dynamisch */}
           <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} />
         </div>
       </div>
@@ -94,9 +96,8 @@ export const FormComponent = (props) => {
           />
         </MapContainer>
         <Popup open={!!popupData} closeOnDocumentClick onClose={() => setPopupData(null)} style={{ width: "100px", height: "150px" }}>
-  <PopupContent />
-</Popup>
-
+          <PopupContent />
+        </Popup>
       </div>
       <FooterComponent />
     </>

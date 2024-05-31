@@ -14,6 +14,7 @@ const socket = io('https://jass-schweiz.vercel.app/api');
 
 function App() {
   const [playername, setplayername] = useState(""); // Standardwert als leerer String
+  const [jasskarten_typ, setJasskartentyp] = useState("");
 
   return (
     <Routes>
@@ -23,8 +24,8 @@ function App() {
       />
       <Route
         path="/form"
-        element={<FormComponent playername={playername} />}
-      />
+        element={<FormComponent playername={playername} jasskarten_typ={jasskarten_typ} setJasskartentyp={setJasskartentyp} />}
+      /> 
       <Route
         path="/impressum"
         element={<ImpressumComponent playername={playername} />}
@@ -33,7 +34,7 @@ function App() {
         path="/main"
         element={
           <Main
-            playername={playername} setplayername={setplayername}
+            playername={playername} setplayername={setplayername} jasskarten_typ={jasskarten_typ}
           />
         }
       />
