@@ -10,6 +10,9 @@ export const FooterComponent = () => {
       <div className="footer-copyright">
         © 2024 G.Schmid, S.Kägi, V.Pereira, P.Würsten
       </div>
+      <div className="footer-text">
+        GeoHackathon 2024, FHNW Muttenz
+      </div>
     </footer>
   );
 };
