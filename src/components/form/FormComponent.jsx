@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const importImages = (name) => {
   try {
-    return require(`../../data/Flag_of_Canton_of_${name}.png`);
+    return require(`../../data/${name}.png`);
   } catch (error) {
     return require(`../../data/default.png`);
   }
