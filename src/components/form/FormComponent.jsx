@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
@@ -7,11 +7,9 @@ import 'leaflet/dist/leaflet.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
-import französisch1 from "./../../data/Franzoesisch_1.json"
-import französisch2 from "./../../data/Franzoesisch_2.json"
-import französisch3 from "./../../data/Franzoesisch_3.json"
-import deutsch from "./../../data/Deutsch.json"
 import { useNavigate } from "react-router-dom";
+import frbild from "./../../data/französisch.png";
+import grbild from "./../../data/Deutsche.png";
 
 const importImages = (name) => {
   try {
@@ -28,7 +26,6 @@ export const FormComponent = (props) => {
   const handleMainPageNavigation = () => {
     console.log("Button clicked");
     navigate("/main");
-    // Übergeben Sie jasskarten_typ an App.jsx
     if (popupData) {
       props.setJasskartentyp(popupData.Jasskarten_typ);
       console.log("jasskarten_typ:", popupData.Jasskarten_typ);
@@ -49,7 +46,7 @@ export const FormComponent = (props) => {
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
           <b>Jasskarten Typ:</b> {language}<br/>
-          <button onClick={handleMainPageNavigation}>Zur Hauptseite</button>
+          <button onClick={handleMainPageNavigation}>Zum Spiel</button>
         </div>
         <div className="popup-flag">
           <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} />
@@ -70,7 +67,7 @@ export const FormComponent = (props) => {
   return (
     <>
       <HeaderComponent playername={props.playername} />
-      <div style={{ height: "calc(100vh - 135px)" }}>
+      <div style={{ height: "calc(100vh - 135px)", position: "relative" }}>
         <MapContainer
           center={[46.8182, 8.2275]}
           zoom={8}
@@ -96,6 +93,79 @@ export const FormComponent = (props) => {
             onEachFeature={(feature, layer) => {
               layer.on('click', () => handleFeatureClick(feature));
             }}
+          />
+          {/* Hier wird das Bild an der WGS 84-Koordinate (47.6021, 8.9769) platziert */}
+          <img 
+            src={frbild} 
+            alt="Französisch" 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 999,
+              pointerEvents: 'none',
+              // WGS 84-Koordinate (47.6021, 8.9769)
+              // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
+              top: 'calc(50% + 50px)', // Beispielwerte
+              left: 'calc(50% + 220px)', // Hier wird das Bild um 100px nach links verschoben
+              width: '200px', // halbe Breite
+              height: 'auto' // Höhe entsprechend anpassen
+            }} 
+          />
+          <img 
+            src={frbild} 
+            alt="Französisch" 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 999,
+              pointerEvents: 'none',
+              // WGS 84-Koordinate (47.6021, 8.9769)
+              // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
+              top: 'calc(50% + 20px)', // Beispielwerte
+              left: 'calc(50% - 175px)', // Hier wird das Bild um 100px nach links verschoben
+              width: '200px', // halbe Breite
+              height: 'auto' // Höhe entsprechend anpassen
+            }} 
+          />
+          <img 
+            src={frbild} 
+            alt="Französisch" 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 999,
+              pointerEvents: 'none',
+              // WGS 84-Koordinate (47.6021, 8.9769)
+              // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
+              top: 'calc(50% - 205px)', // Beispielwerte
+              left: 'calc(50% + 170px)', // Hier wird das Bild um 100px nach links verschoben
+              width: '100px', // halbe Breite
+              height: 'auto' // Höhe entsprechend anpassen
+            }} 
+          />
+          <img 
+            src={grbild} 
+            alt="Deutsch" 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 999,
+              pointerEvents: 'none',
+              // WGS 84-Koordinate (47.6021, 8.9769)
+              // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
+              top: 'calc(50% - 90px)', // Beispielwerte
+              left: 'calc(50% + 90px)', // Hier wird das Bild um 100px nach links verschoben
+              width: '250px', // halbe Breite
+              height: 'auto' // Höhe entsprechend anpassen
+            }} 
           />
         </MapContainer>
         <Popup open={!!popupData} closeOnDocumentClick onClose={() => setPopupData(null)} >
