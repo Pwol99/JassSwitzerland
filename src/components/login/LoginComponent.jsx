@@ -30,7 +30,7 @@ export const LoginComponent = ({ playername, setplayername }) => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed', 
-        height: '80vh',
+        minHeight: '100vh',  // Ändere height zu minHeight
         display: 'flex',
         justifyContent: 'flex-end',
       }}>

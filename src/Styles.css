@@ -1,3 +1,10 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    overflow: hidden; /* Verhindert das Scrollen der Seite */
+}
+
 .LoginWrapper {
     display: flex;
     flex-direction: column;
