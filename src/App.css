@@ -1,8 +1,7 @@
-/* .App-header {
-  color: #0000000;
+/* General Styles */
+.App-header {
   background-color: white;
   font-size: calc(10px + 2vmin);
-  color: white;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -43,7 +42,6 @@
   top: 0px;
 }
 
-
 #TableBody {
   background-color: white;
   color: black;
@@ -51,7 +49,7 @@
 
 table {
   border-collapse: collapse;
-  width: 100vh;
+  width: 100%; /* Change width to 100% for better consistency */
 }
 
 tr {
@@ -65,13 +63,11 @@ tr {
   min-width: 100px;
   cursor: pointer;
   border: 1px solid white;
-
 }
 
 #ResetButton:hover {
   opacity: 0.5;
 }
-
 
 select {
   padding: 10px 20px;
@@ -91,4 +87,32 @@ footer {
   background-color: white;
   padding: 4px 0px;
   border-top: 1px solid #007cc3;
+}
+
+/* PopupStyles.css */
+.popup-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* .popup-overlay {
+  background: rgba(216, 21, 21, 0.5); /* Semi-transparent background
 } */
+
+/* .popup-text {
+  flex: 1;
+  background:rgba(216, 21, 21, 0.5)
+} */
+
+.popup-flag img {
+  margin-left: 20px;
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  background:rgba(76, 121, 7, 0.1)
+}
