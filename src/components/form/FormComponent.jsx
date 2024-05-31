@@ -9,7 +9,7 @@ import 'reactjs-popup/dist/index.css';
 import cantonsGeoJSON from "./../../data/kantone.json";
 import { useNavigate } from "react-router-dom";
 import frbild from "./../../data/französisch.png";
-import grbild from "./../../data/deutsch.png";
+import grbild from "./../../data/Deutsche.png";
 
 const importImages = (name) => {
   try {
@@ -151,7 +151,7 @@ export const FormComponent = (props) => {
           />
           <img 
             src={grbild} 
-            alt="Französisch" 
+            alt="Deutsch" 
             style={{
               position: 'absolute',
               top: '50%',
@@ -161,9 +161,9 @@ export const FormComponent = (props) => {
               pointerEvents: 'none',
               // WGS 84-Koordinate (47.6021, 8.9769)
               // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
-              top: 'calc(50% - 205px)', // Beispielwerte
-              left: 'calc(50% + 170px)', // Hier wird das Bild um 100px nach links verschoben
-              width: '100px', // halbe Breite
+              top: 'calc(50% - 90px)', // Beispielwerte
+              left: 'calc(50% + 90px)', // Hier wird das Bild um 100px nach links verschoben
+              width: '250px', // halbe Breite
               height: 'auto' // Höhe entsprechend anpassen
             }} 
           />
