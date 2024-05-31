@@ -1,7 +1,6 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "../data/Jasslogo.png";
-import fhnw from "../data/logofhnw.png";
 import "../Styles.css";
 
 export const HeaderComponent = ({playername}) => {
@@ -12,10 +11,7 @@ export const HeaderComponent = ({playername}) => {
         <Link to="/">
           <img style={{ height: 60 }} src={logo} alt="logo" />
         </Link>
-        <a href="https://www.fhnw.ch/de/die-fhnw/hochschulen/architektur-bau-geomatik/institute/institut-geomatik" target="_blank" rel="noopener noreferrer">
-          <img style={{ height: 60, marginLeft: '40px' }} src={fhnw} alt="fhnw" />
-        </a>
-        <div className="HeaderText" style={{ marginLeft: '200px' }}>
+        <div className="footer-content">
           Das Schweizer Jassgame
         </div>
         <div className="HeaderText" id="Username">

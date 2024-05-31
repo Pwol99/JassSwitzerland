@@ -46,10 +46,31 @@ footer {
     background-color: #E7F6FF;
     border-top: 2px solid #000000;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     height: 65px;
     padding: 0; /* Remove padding */
 }
+
+.footer-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000000
+}
+
+.footer-copyright {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 0.75em;
+    color: #000000;
+}
+
 
 #LogoutButton {
     margin-right: 10px;
