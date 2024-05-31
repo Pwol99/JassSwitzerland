@@ -1,14 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Modal, Box, Typography, Grid } from "@mui/material";
+import { Button, Modal, Box, Typography, Grid, Avatar } from "@mui/material";
 import "../../Styles.css";
 
 export const ImpressumComponent = (props) => {
   const playername = props.playername || "";
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [avatarColor, setAvatarColor] = useState('');
+  
+  useEffect(() => {
+    const colors = ['#1976D2', '#388E3C', '#FBC02D', '#D32F2F', '#7B1FA2', '#FF5722'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setAvatarColor(randomColor);
+  }, []);
 
   const handleGameEnd = () => {
     // Zurücksetzen des Spielernamens oder andere Aktionen für das Spielende
@@ -23,6 +30,16 @@ export const ImpressumComponent = (props) => {
     setOpen(false); // Schließen des Modal-Fensters
   };
 
+  const renderAvatar = () => {
+    if (playername) {
+      const initials = playername.charAt(0).toUpperCase();
+      return (
+        <Avatar sx={{ bgcolor: avatarColor, marginRight: '10px' }}>{initials}</Avatar>
+      );
+    }
+    return null;
+  };
+
   // Beispiel-Daten für das Scoreboard
   const scoreboardData = [
     { name: 'Spieler 1', points: 100 },
@@ -32,11 +49,12 @@ export const ImpressumComponent = (props) => {
   ];
 
   const sortedPlayers = scoreboardData.sort((a, b) => b.points - a.points);
+  
 
   return (
     <>
       <HeaderComponent playername={playername} />
-      <div className="ImpressumWrapper" style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
+      <div className="ImpressumWrapper" style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', position: 'relative' }}>
         <div>
           <h1>Impressum</h1>
           <section>
@@ -73,6 +91,9 @@ export const ImpressumComponent = (props) => {
         <div style={{ position: 'absolute', top: '100px', right: '50px'}}>
           <Button variant="contained" onClick={handleGameEnd} style={{ marginBottom: '10px' }}>Spiel beenden</Button>
           <Button variant="contained" onClick={handleScoreboard} style={{ height: '36px' }}>Scoreboard</Button>
+        </div>
+        <div style={{ position: 'absolute', top: '0', left: '0', margin: '10px', transform: 'translateX(-100%)' }}>
+          {renderAvatar()} {/* Avatar anzeigen */}
         </div>
       </div>
       <FooterComponent />
