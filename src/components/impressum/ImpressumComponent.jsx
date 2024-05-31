@@ -1,10 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Modal, Box, Typography, Grid } from "@mui/material";
 import "../../Styles.css";
 
 export const ImpressumComponent = (props) => {
   const playername = props.playername || "";
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGameEnd = () => {
+    // Zurücksetzen des Spielernamens oder andere Aktionen für das Spielende
+    navigate("/");
+  };
+
+  const handleScoreboard = () => {
+    setOpen(true)
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Schließen des Modal-Fensters
+  };
+
+  // Beispiel-Daten für das Scoreboard
+  const scoreboardData = [
+    { name: 'Spieler 1', points: 100 },
+    { name: 'Spieler 2', points: 80 },
+    { name: 'Spieler 3', points: 120 },
+    { name: 'Spieler 4', points: 90 },
+  ];
+
+  const sortedPlayers = scoreboardData.sort((a, b) => b.points - a.points);
 
   return (
     <>
@@ -43,8 +70,36 @@ export const ImpressumComponent = (props) => {
             <p>Das Problem beim jassen mit Personen aus unterschiedlichen Kantonen ist altbekannt, gewisse jassen mit Deutschschweizerkarten andere mit Französischen. Diesem Problem wollen wir Abhilfe schaffen. Aktuell wird noch gegen einen Computer gespielt, toll wäre eine weitere Entwicklung gegen echte Spieler und jeder Spieler sieht die Karten mit denen er am meisten vertraut ist.</p>
           </section>
         </div>
+        <div style={{ position: 'absolute', top: '100px', right: '50px'}}>
+          <Button variant="contained" onClick={handleGameEnd} style={{ marginBottom: '10px' }}>Spiel beenden</Button>
+          <Button variant="contained" onClick={handleScoreboard} style={{ height: '36px' }}>Scoreboard</Button>
+        </div>
       </div>
       <FooterComponent />
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} // Zentrieren des Modal-Fensters
+      >
+        <Box sx={{ width: 400, bgcolor: 'background.paper', p: 3, borderRadius: '8px' }}>
+          <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
+            Scoreboard
+          </Typography>
+          {/* Scoreboard-Tabelle */}
+          <Grid container spacing={2}>
+            {sortedPlayers.map((player, index) => (
+              <Grid item xs={12} key={index}>
+                <Typography variant="body1">
+                  {index + 1}. Platz: {player.name} - {player.points} Punkte
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Modal>
     </>
   );
 };
