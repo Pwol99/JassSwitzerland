@@ -5,7 +5,7 @@ import {FooterComponent} from "../FooterComponent"
 export const Main = (props) => {
   return (
     <div className="App">
-      <HeaderComponent username={props.username} />
+      <HeaderComponent playername={props.playername} />
       <JassGame playername={props.playername} setplayername={props.setplayername}/>
     </div>
   );
