@@ -32,9 +32,9 @@ export const ImpressumComponent = (props) => {
     setOpen(false);
   };
 
-  const renderAvatar = () => {
-    if (playername) {
-      const initials = playername.charAt(0).toUpperCase();
+  const renderAvatar = (name) => {
+    if (name === playername) {
+      const initials = name.charAt(0).toUpperCase();
       return (
         <Avatar sx={{ bgcolor: avatarColor, marginRight: '10px' }}>{initials}</Avatar>
       );
@@ -51,7 +51,7 @@ export const ImpressumComponent = (props) => {
   };
 
   const scoreboardData = [
-    { name: 'Spieler 1', points: 100 },
+    { name: playername || "Spieler 1", points: 100 },
     { name: 'Spieler 2', points: 80 },
     { name: 'Spieler 3', points: 120 },
     { name: 'Spieler 4', points: 90 },
@@ -101,7 +101,7 @@ export const ImpressumComponent = (props) => {
           <Button variant="contained" onClick={handleScoreboard} style={buttonStyle}>Scoreboard</Button>
         </div>
         <div style={{ position: 'absolute', top: '0', left: '0', margin: '10px', transform: 'translateX(-100%)' }}>
-          {renderAvatar()}
+          {renderAvatar(playername)}
         </div>
       </div>
       <FooterComponent />
@@ -120,6 +120,7 @@ export const ImpressumComponent = (props) => {
           <Grid container spacing={2}>
             {sortedPlayers.map((player, index) => (
               <Grid item xs={12} key={index}>
+                  {renderAvatar(player.name)}
                 <Typography variant="body1">
                   {index + 1}. Platz: {player.name} - {player.points} Punkte
                 </Typography>
