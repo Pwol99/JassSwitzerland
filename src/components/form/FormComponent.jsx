@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../../Styles.css";
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
@@ -13,8 +13,8 @@ import grbild from "./../../data/Deutsche.png";
 import franz1 from "./../../data/Franzoesisch_1.json";
 import franz2 from "./../../data/Franzoesisch_2.json";
 import franz3 from "./../../data/Franzoesisch_3.json";
-import german from "./../../data/Deutsch.json";
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const importImages = (name) => {
   try {
@@ -27,6 +27,7 @@ const importImages = (name) => {
 export const FormComponent = (props) => {
   const navigate = useNavigate();
   const [popupData, setPopupData] = useState(null);
+  const [openAlert, setOpenAlert] = useState(false);
 
   const handleMainPageNavigation = () => {
     console.log("Button clicked");
@@ -39,6 +40,7 @@ export const FormComponent = (props) => {
 
   const handleFeatureClick = (feature) => {
     setPopupData(feature.properties);
+    setOpenAlert(true);
   };
 
   const PopupContent = () => {
@@ -47,20 +49,14 @@ export const FormComponent = (props) => {
     const language = kanType === 'ger' ? 'Deutsch' : 'Französisch';
   
     return (
-      
-      <div 
-      className="popup-content" 
-      style={{
-        display: "flex"
-
-        }}>
+      <div className="popup-content">
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
           <b>Karten-Typ:</b> {language}<br/>
-          <button onClick={handleMainPageNavigation}>Zum Spiel</button>
+          <button onClick={handleMainPageNavigation} style={{ margin: "15px 0 0 30px" }}>Zum Spiel</button>
         </div>
         <div className="popup-flag">
-          <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} />
+          <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} style={{}} />
         </div>
       </div>
     );
@@ -175,7 +171,7 @@ export const FormComponent = (props) => {
               zIndex: 999,
               pointerEvents: 'none',
               // WGS 84-Koordinate (47.6021, 8.9769)
-              // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
+              //
               top: 'calc(50% - 205px)', // Beispielwerte
               left: 'calc(50% + 170px)', // Hier wird das Bild um 100px nach links verschoben
               width: '100px', // halbe Breite
@@ -206,6 +202,11 @@ export const FormComponent = (props) => {
         </Popup>
       </div>
       <FooterComponent />
+      <Stack sx={{ position: 'fixed', top: '75px', left: '10px', zIndex: 9999 }}>
+        <Alert severity="info" onClose={() => setOpenAlert(false)} sx={{ width: '300px', bgcolor: 'rgba(255, 255, 0, 0.35)', color: '#000000', '& .MuiAlert-icon': { color: '#000000' } }}>
+    Bitte wählen Sie einen Kanton aus.
+    </Alert>
+    </Stack>
     </>
   );
 };
