@@ -1,6 +1,28 @@
 const { Server } = require('socket.io');
 const express = require('express');
 const http = require('http');
+const trumpStrength = {
+  '6': 10,
+  '7': 11,
+  '8': 12,
+  '10': 13,
+  'Queen': 14,
+  'King': 15,
+  'Ace': 16,
+  '9': 17,
+  'Jack': 18
+};
+const cardStrengths = {
+  '6': 1,
+  '7': 2,
+  '8': 3,
+  '9': 4,
+  '10': 5,
+  'Jack': 6,
+  'Queen': 7,
+  'King': 8,
+  'Ace': 9
+};
 
 const suits = ['Diamond', 'Heart', 'Spade', 'Klubs'];
 const values = ['6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
@@ -21,17 +43,32 @@ let gameState = {
   players: [],
   hands: [], // To store the hands dealt to each player
   currentTurn: null,
+  startingPlayer: null,
   trumpSuit: null,
   playedCards: [],
   playerIdCounter: 1, // Start from 1
 };
 
-// Function: Start Game
 const startGame = () => {
+  // Shuffle the deck and deal cards
   gameState.deck = shuffleDeck(createDeck());
   dealCards();
+  
+  // Reset played cards
   gameState.playedCards = [];
-  gameState.currentTurn = Math.floor(Math.random() * 4); // Randomly select starting player
+
+  // Randomly select a player to choose the trump suit
+  const playerIndex = Math.floor(Math.random() * gameState.players.length);
+  const startingPlayer = gameState.players[playerIndex];
+
+  // Set the current turn and starting player
+  gameState.currentTurn = playerIndex;
+  gameState.startingPlayer = playerIndex;
+
+  // Emit a message to the selected player to choose the trump suit
+  io.to(startingPlayer.socketId).emit('chooseTrumpSuit');
+
+  // Emit the updated game state
   io.emit('updateGame', gameState);
 };
 
@@ -78,7 +115,7 @@ io.on('connection', (socket) => {
 // Event: Join Game
 socket.on('joinGame', (playerName) => {
   console.log(playerName + " joined the game ");
-  const player = { id: gameState.playerIdCounter++, name: playerName, socketId: socket.id };
+  const player = { id: gameState.playerIdCounter++, name: playerName, socketId: socket.id, points:null};
   gameState.players.push(player);
   console.log(gameState.players.length);
 
@@ -118,22 +155,43 @@ socket.on('playCard', ({ playerIndex, card }) => {
       gameState.currentTurn = (gameState.currentTurn + 1) % 4;
       io.emit('updateGame', gameState);
     }
-  } else {
+  } 
+  else {
     // It's not the player's turn, send an error message or handle it accordingly
     socket.emit('errorMessage', 'It is not your turn to play a card.');
     console.log("Wrong player");
+    console.log(console.log("Non Updated playedCards:", gameState.playedCards));
   }
 });
 
+// Event: Select Trump Suit
+socket.on('selectTrumpSuit', (suit) => {
+  const playerIndex = getPlayerIndex(socket.id);
+  if (playerIndex === -1 || gameState.currentTurn !== playerIndex) return; // Player not found or not their turn
+  
+  // Convert the selected trump suit to English
+  const englishSuits = {
+    'Karo': 'Diamond',
+    'Herz': 'Heart',
+    'Pik': 'Spade',
+    'Kreuz': 'Klubs',
+    'Eichel': 'Diamond',
+    'Rose': 'Heart',
+    'Schilte': 'Spade',
+    'Schelle': 'Klubs'
+  };
+  const englishSuit = englishSuits[suit];
 
-  // Event: Select Trump Suit
-  socket.on('selectTrumpSuit', (suit) => {
-    const playerIndex = getPlayerIndex(socket.id);
-    if (playerIndex === -1 || gameState.currentTurn !== playerIndex) return; // Player not found or not their turn
-
-    gameState.trumpSuit = suit;
+  if (englishSuit) {
+    gameState.trumpSuit = englishSuit;
     io.emit('updateGame', gameState);
-  });
+    console.log(englishSuit)
+    console.log(gameState.trumpSuit)
+  } else {
+    console.error('Invalid trump suit:', suit);
+  }
+});
+
 
   // Event: Disconnect
   socket.on('disconnect', () => {
@@ -143,18 +201,106 @@ socket.on('playCard', ({ playerIndex, card }) => {
   });
 });
 
-// Function: End Turn
+const compareCardStrength = (card1, card2, firstCardSuit, trumpSuit) => {
+  // Check if both cards are of the trump suit
+  const isTrumpCard1 = card1.suit === trumpSuit;
+  const isTrumpCard2 = card2.suit === trumpSuit;
+
+  // Compare cards based on their suits and values
+  if (card1.suit === firstCardSuit && card2.suit === firstCardSuit) {
+    // Both cards are of the same non-trump suit, compare using cardStrengths
+    const strength1 = cardStrengths[card1.value];
+    const strength2 = cardStrengths[card2.value];
+    return strength1 - strength2;
+  } else if (isTrumpCard1 && isTrumpCard2) {
+    // Both cards are of the trump suit, compare using trumpStrength
+    const trumpStrength1 = trumpStrength[card1.value];
+    const trumpStrength2 = trumpStrength[card2.value];
+    return trumpStrength1 - trumpStrength2;
+  } else if (isTrumpCard1) {
+    return 1; // card1 is a trump card, so it's stronger
+  } else if (isTrumpCard2) {
+    return -1; // card2 is a trump card, so it's stronger
+  } else {
+    return 0; // Neither card is of the trump suit, no comparison
+  }
+};
+
+const cardPoints = {
+  '6': 0,
+  '7': 0,
+  '8': 0,
+  '9': 0,
+  '10': 10,
+  'Jack': 2,
+  'Queen': 3,
+  'King': 4,
+  'Ace': 11
+};
+
+const calculatePoints = (hand) => {
+  let points = 0;
+  hand.forEach((card) => {
+    // Check if the card value exists in the cardPoints object
+    if (card.value in cardPoints) {
+      // Add the points of the card to the total points
+      points += cardPoints[card.value];
+    }
+  });
+  console.log(points)
+  return points;
+};
+
 const endTurn = () => {
-  // Determine winner of the turn, update game state accordingly
-  // Implement game logic here
+  // Check if there are any played cards
+  if (gameState.playedCards.length === 0) {
+    console.log("No cards have been played yet.");
+    return; // Exit the function early if no cards have been played
+  }
 
-  // Reset played cards
-  gameState.playedCards = [];
+  // Determine the suit of the first played card
+  const firstCardSuit = gameState.playedCards[0].card.suit;
 
-  // Advance to next turn
-  gameState.currentTurn = (gameState.currentTurn + 1) % 4;
+  // Determine the winning card and the player who played it
+  let winningCard = gameState.playedCards[0].card;
+  let winningPlayerIndex = gameState.playedCards[0].playerIndex;
 
-  io.emit('updateGame', gameState);
+  for (let i = 1; i < gameState.playedCards.length; i++) {
+    const card = gameState.playedCards[i].card;
+    const playerIndex = gameState.playedCards[i].playerIndex;
+    // Compare cards only if they have the same suit as the first played card
+    if (card.suit === firstCardSuit && compareCardStrength(card, winningCard, firstCardSuit, gameState.trumpSuit) > 0) {
+      winningCard = card;
+      winningPlayerIndex = playerIndex;
+    }
+  }
+
+  // Set the starting player to the winning player
+  gameState.startingPlayer = winningPlayerIndex;
+
+  // Set the current turn to the starting player
+  gameState.currentTurn = winningPlayerIndex;
+
+  // Calculate points from the played cards
+  const points = calculatePoints(gameState.playedCards.map((playedCard) => playedCard.card));
+
+  // Add points to the winning player
+  gameState.players[winningPlayerIndex].points += points;
+
+  // Emit the played cards to update the game state
+  io.emit('playedCards', gameState.playedCards);
+
+  // Set a timeout to clear the played cards after 3 seconds
+  setTimeout(() => {
+    // Reset played cards
+    gameState.playedCards = [];
+
+    // Update the game state with the points and the next turn
+    io.emit('updateGame', gameState);
+    console.log("Next turn starting with player index:", gameState.currentTurn);
+    console.log(winningCard)
+    console.log(gameState.players.points)
+  }, 3000);
 };
 
 // Function: Get Player Index by Socket ID

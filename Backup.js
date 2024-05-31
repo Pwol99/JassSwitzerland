@@ -1,132 +1,122 @@
-// Play a card from the player's hand
-const playCard = (index) => {
-    const card = hands[selectedPlayer][index]; // Get the card that the player clicked on
-    const updatedHands = [...hands]; // Create a copy of the current hands
-    const PlayedSuit = card.suit;
+import React, { useState, useEffect } from 'react';
+import { HeaderComponent } from "../HeaderComponent";
+import { FooterComponent } from "../FooterComponent";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Modal, Box, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Avatar } from "@mui/material";
+import "../../Styles.css";
 
-    // Remove the played card from the player's hand
-    updatedHands[selectedPlayer].splice(index, 1);
+export const ImpressumComponent = (props) => {
+  const playername = props.playername || "";
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const [avatarColor, setAvatarColor] = useState('');
+  
+  useEffect(() => {
+    const colors = ['#1976D2', '#388E3C', '#FBC02D', '#D32F2F', '#7B1FA2', '#FF5722'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setAvatarColor(randomColor);
+  }, []);
 
-    // Update the hands state with the modified hand
-    setHands(updatedHands);
-
-    // Add the played card to the played cards list with index 0
-    const newPlayedCards = [{ ...card, index: 0 }];
-    setPlayedCards(newPlayedCards);
-
-    // Iterate over the other players' hands
-    updatedHands.forEach((playerHand, playerIndex) => {
-      if (playerIndex !== selectedPlayer) {
-        // Find cards of the same suit as the played card
-        const sameSuitCards = playerHand.filter(c => c.suit === card.suit);
-
-        let selectedCard;
-        if (sameSuitCards.length > 0) {
-          // If there are cards of the same suit, select a random one
-          const randomIndex = Math.floor(Math.random() * sameSuitCards.length);
-          selectedCard = sameSuitCards[randomIndex];
-        } else {
-          // If there are no cards of the same suit, select a random card
-          const randomIndex = Math.floor(Math.random() * playerHand.length);
-          selectedCard = playerHand[randomIndex];
-        }
-
-        // Remove the selected card from the player's hand
-        playerHand.splice(playerHand.indexOf(selectedCard), 1);
-
-        // Add the selected card to the played cards list with the corresponding player index
-        newPlayedCards.push({ ...selectedCard, index: playerIndex });
-      }
-    });
-
-    // Update the played cards state with all the played cards
-    setPlayedCards(newPlayedCards);
-
-    // Find the strongest card among the played cards
-    // Find the strongest card among the played cards
-const strongest = findStrongestCard(newPlayedCards, PlayedSuit, trumpSuit);
-    console.log(strongest)
+  const handleGameEnd = () => {
+    navigate("/");
   };
-// Function to find the strongest card among played cards not from the same suit as the first played card
-const findStrongestCard = (playedCards, playedSuit, trumpSuit) => {
-  if (!playedCards || playedCards.length === 0) {
-    return null; // Return null if playedCards is undefined or empty
-  }
 
-  // Initialize strongest card and strength
-  let strongestCard = null;
-  let strongestStrength = 0;
+  const handleScoreboard = () => {
+    setOpen(true);
+  };
 
-  // Iterate through played cards
-  playedCards.forEach(card => {
-    // Check if the card belongs to the same suit as the first card or if it's a trump card
-    if (card.suit === playedSuit || card.suit === trumpSuit) {
-      const strength = calculateCardStrength(card, trumpSuit);
-      if (strength > strongestStrength) {
-        strongestCard = card;
-        strongestStrength = strength;
-      }
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleNewGame = () => {
+    navigate("../form");
+  };
+
+  const renderAvatar = () => {
+    if (playername) {
+      const initials = playername.charAt(0).toUpperCase();
+      return (
+        <Avatar sx={{ bgcolor: avatarColor, marginRight: '10px' }}>{initials}</Avatar>
+      );
     }
-  });
+    return null;
+  };
 
-  return strongestCard;
+  const buttonStyle = {
+    marginBottom: '10px',
+    backgroundColor: '#E7F6FF',
+    color: '#000',
+    height: '36px',
+    textTransform: 'none'
+  };
+
+  const scoreboardData = [
+    { name: Player1, Player3, points: PlayerP1, PlayerP3 },
+    { name: Player3, Player4, points: PlayerP2, PlayerP4 },
+  ];
+
+  const sortedPlayers = scoreboardData.sort((a, b) => b.points - a.points);
+
+  return (
+    <>
+      <HeaderComponent playername={playername} />
+      <div className="ImpressumWrapper" style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '100px', right: '50px'}}>
+          <Button variant="contained" color="primary" onClick={handleNewGame} style={buttonStyle}>
+            Neues Spiel
+          </Button>
+          <Button variant="contained" onClick={handleScoreboard} style={buttonStyle}>Scoreboard</Button>
+        </div>
+        <div style={{ position: 'absolute', top: '0', left: '0', margin: '10px', transform: 'translateX(-100%)' }}>
+          {renderAvatar()}
+        </div>
+      </div>
+      <FooterComponent />
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Box sx={{ width: 400, bgcolor: 'background.paper', p: 3, borderRadius: '8px' }}>
+          <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
+            Scoreboard
+          </Typography>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>#</TableCell>
+                  <TableCell>Player</TableCell>
+                  <TableCell align="right">Points</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedPlayers.map((player, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{player.name}</TableCell>
+                    <TableCell align="right">{player.points}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+            <Button variant="contained" color="primary" onClick={handleNewGame} style={buttonStyle}>
+              Neues Spiel
+            </Button>
+            <Button variant="contained" color="secondary" onClick={handleGameEnd} style={buttonStyle}>
+              Beenden
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+    </>
+  );
 };
 
-
-  // Define strengths based on card values
-  const cardStrengths = {
-    '6': 1,
-    '7': 2,
-    '8': 3,
-    '9': 4,
-    '10': 5,
-    'Jack': 6,
-    'Queen': 7,
-    'King': 8,
-    'Ace': 9
-  };
-
-  const calculateCardStrength = (card, trumpSuit) => {
-    const trumpStrength = {
-      '6': 10,
-      '7': 11,
-      '8': 12,
-      '10': 13,
-      'Queen': 14,
-      'King': 15,
-      'Ace': 16,
-      '9': 17,
-      'Jack': 18
-    };
-  
-    if (card.suit === trumpSuit) {
-      return trumpStrength[card.value] || 0; // If the card is a trump card, return its trump strength
-    } else {
-      // If it's not a trump card, return its regular strength
-      return cardStrengths[card.value] || 0;
-    }
-  };
-  
-
-    // Toggle between French and Swiss decks
-    const toggleDeckType = () => {
-      setDeckType(prevDeckType => prevDeckType === 'French' ? 'Swiss' : 'French');
-    };
-
-    const createDeck = () => {
-      let deck = [];
-      for (let suit of suits) {
-        for (let value of values) {
-          deck.push({ suit, value });
-        }
-      }
-      return deck;
-    };
-    
-    const shuffleDeck = (deck) => {
-      for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-      }
-      return deck;
-    };
+export default ImpressumComponent;
