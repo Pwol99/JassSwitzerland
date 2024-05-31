@@ -57,7 +57,7 @@ export const FormComponent = (props) => {
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
           <b>Jasskarten Typ:</b> {language}<br/>
-          <button onClick={handleMainPageNavigation}>Zur Hauptseite</button>
+          <button onClick={handleMainPageNavigation}>Zum Spiel</button>
         </div>
         <div className="popup-flag">
           <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} />

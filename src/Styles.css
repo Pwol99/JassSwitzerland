@@ -19,7 +19,7 @@ body {
     text-align: center;
     background-color: #f0f0f0;
     position: relative;
-    padding: 0; /* Remove padding */
+    padding: 0;
 }
 
 .App-header {
@@ -115,7 +115,7 @@ footer {
     text-align: right;
 }
 
-/* Footer Styling */
+
 .FooterContainer {
     display: flex;
     justify-content: space-between;

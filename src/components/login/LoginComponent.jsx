@@ -14,7 +14,7 @@ export const LoginComponent = ({ playername, setplayername }) => {
   };
 
   const handleNewRoomClick = () => {
-    console.log("Playername:", playername); // Überprüfen Sie den aktuellen Wert von playername
+    console.log("Playername:", playername); 
     navigate("/form");
   };
 
@@ -30,7 +30,7 @@ export const LoginComponent = ({ playername, setplayername }) => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed', 
-        minHeight: '100vh',  // Ändere height zu minHeight
+        minHeight: '100vh',  
         display: 'flex',
         justifyContent: 'flex-end',
       }}>
