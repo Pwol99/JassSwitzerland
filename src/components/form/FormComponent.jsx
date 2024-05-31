@@ -56,7 +56,7 @@ export const FormComponent = (props) => {
         }}>
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
-          <b>Jasskarten Typ:</b> {language}<br/>
+          <b>Karten-Typ:</b> {language}<br/>
           <button onClick={handleMainPageNavigation}>Zum Spiel</button>
         </div>
         <div className="popup-flag">
@@ -79,7 +79,7 @@ export const FormComponent = (props) => {
     weight: 1,
     fill: true,
     fillOpacity: 0.5,
-    fillColor: '#CCCCCC', // Leichtes Grau als Füllfarbe
+    fillColor: '#666666', // Leichtes Grau als Füllfarbe
     interactive: true
   };
 
