@@ -47,13 +47,14 @@ export const LoginComponent = ({ playername, setplayername }) => {
               />
             </CardContent>
             <Button
-              disabled={!playername}
-              variant="contained"
-              onClick={handleNewRoomClick}
-              style={{ marginTop: '10px' }}
+            disabled={!playername}
+            variant="contained"
+            onClick={handleNewRoomClick}
+            sx={{ marginTop: '10px', backgroundColor: '#E7F6FF', color: '#000', height: '36px', textTransform: 'none' }}
             >
-              Spielkarten auswählen
+            Spielkarten auswählen
             </Button>
+
             <div style={{ marginTop: '20px', textAlign: 'left' }}>
               <Typography variant="body2" style={{ textAlign: 'left' }}>
                 Willkommen beim Jassen, dem beliebten Kartenspiel, das in der ganzen Schweiz und in anderen alemannischen Regionen gespielt wird! Mit 36 Karten und vier Spielern bringt Jassen Menschen zusammen und ist ein wichtiger Teil unserer kulturellen Tradition. Aus diesem Grund kann man hier je nach Kanton, in dem man lebt oder aufgewachsen ist, die entsprechenden Karten wählen und die Regeln anpassen. Also, schnapp dir deine Karten und lass die Spiele beginnen – Jassen verbindet und begeistert!
