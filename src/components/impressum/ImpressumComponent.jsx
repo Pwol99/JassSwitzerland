@@ -17,6 +17,9 @@ export const ImpressumComponent = (props) => {
     setAvatarColor(randomColor);
   }, []);
 
+  const handleneu = () => {
+    navigate("../form");
+  };
   const handleGameEnd = () => {
     navigate("/");
   };
@@ -94,7 +97,7 @@ export const ImpressumComponent = (props) => {
           </section>
         </div>
         <div style={{ position: 'absolute', top: '100px', right: '50px'}}>
-          <Button variant="contained" onClick={handleGameEnd} style={buttonStyle}>Spiel beenden</Button>
+          <Button variant="contained" onClick={handleScoreboard} style={buttonStyle}>Spiel beenden</Button>
           <Button variant="contained" onClick={handleScoreboard} style={buttonStyle}>Scoreboard</Button>
         </div>
         <div style={{ position: 'absolute', top: '0', left: '0', margin: '10px', transform: 'translateX(-100%)' }}>
@@ -124,7 +127,7 @@ export const ImpressumComponent = (props) => {
             ))}
           </Grid>
           <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="contained" color="primary" onClick={() => {/* Funktion für neues Spiel */}} style={buttonStyle}>
+            <Button variant="contained" color="primary" onClick={(handleneu)} style={buttonStyle}>
               Neues Spiel
             </Button>
             <Button variant="contained" color="secondary" onClick={handleGameEnd} style={buttonStyle}>
