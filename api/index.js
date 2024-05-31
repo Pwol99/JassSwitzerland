@@ -69,7 +69,7 @@ const startGame = () => {
   io.to(startingPlayer.socketId).emit('chooseTrumpSuit');
 
   // Emit the updated game state
-  io.emit('updateGame', gameState);
+  io.emit('updateGame', gameState,gameState.players);
 };
 
 // Function: Deal Cards
@@ -100,7 +100,7 @@ const dealCards = () => {
   gameState.players.forEach((player, index) => {
     io.to(player.socketId).emit('updateHand', gameState.hands[index]);
   });
-
+  console.log(gameState.players)
   // Emit the rest of the game state
   io.emit('updateGame', {
     currentTurn: gameState.currentTurn,
@@ -117,7 +117,7 @@ socket.on('joinGame', (playerName) => {
   console.log(playerName + " joined the game ");
   const player = { id: gameState.playerIdCounter++, name: playerName, socketId: socket.id, points:null};
   gameState.players.push(player);
-  console.log(gameState.players.length);
+  console.log(gameState.players);
 
   // Assign a unique player index to the player
   const playerIndex = gameState.players.length - 1;
@@ -126,6 +126,8 @@ socket.on('joinGame', (playerName) => {
   if (gameState.players.length === 4) {
     startGame();
     console.log("game Started");
+    console.log(gameState.players[0].name)
+    console.log(gameState.players[0].id)
   } else {
     io.emit('updateGame', gameState);
   }
@@ -299,7 +301,8 @@ const endTurn = () => {
     io.emit('updateGame', gameState);
     console.log("Next turn starting with player index:", gameState.currentTurn);
     console.log(winningCard)
-    console.log(gameState.players.points)
+    console.log(gameState.players[winningPlayerIndex].points)
+    console.log(gameState.players)
   }, 3000);
 };
 
