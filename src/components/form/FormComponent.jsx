@@ -15,6 +15,7 @@ import franz2 from "./../../data/Franzoesisch_2.json";
 import franz3 from "./../../data/Franzoesisch_3.json";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 const importImages = (name) => {
   try {
@@ -42,24 +43,33 @@ export const FormComponent = (props) => {
     setPopupData(feature.properties);
     setOpenAlert(true);
   };
-
   const PopupContent = () => {
     if (!popupData) return null;
     const kanType = popupData.Jasskarten_typ;
     const language = kanType === 'ger' ? 'Deutsch' : 'Französisch';
-  
+    
     return (
       <div className="popup-content">
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
           <b>Karten-Typ:</b> {language}<br/>
-          <button onClick={handleMainPageNavigation} style={{ margin: "15px 0 0 30px" }}>Zum Spiel</button>
+          <div style={{ position: 'absolute', top: '45px', right: '25px'}}>
+            <Button variant="contained" onClick={handleMainPageNavigation} style={buttonStyle}>Zum Spiel</Button>
+          </div>
         </div>
         <div className="popup-flag">
-          <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} style={{}} />
+          <img src={importImages(popupData.NAME)} width="100" alt={popupData.NAME} />
         </div>
       </div>
     );
+  };
+  
+  const buttonStyle = {
+    marginBottom: '10px',
+    backgroundColor: '#E7F6FF',
+    color: '#000',
+    height: '36px',
+    textTransform: 'none'
   };
 
   const geoJsonStyle = {
@@ -203,7 +213,7 @@ export const FormComponent = (props) => {
       </div>
       <FooterComponent />
       <Stack sx={{ position: 'fixed', top: '75px', left: '10px', zIndex: 9999 }}>
-        <Alert severity="info" onClose={() => setOpenAlert(false)} sx={{ width: '300px', bgcolor: 'rgba(255, 255, 0, 0.35)', color: '#000000', '& .MuiAlert-icon': { color: '#000000' } }}>
+        <Alert severity="info" close={false} sx={{ width: '300px', bgcolor: 'rgba(255, 255, 0, 0.35)', color: '#000000', '& .MuiAlert-icon': { color: '#000000' } }}>
     Bitte wählen Sie einen Kanton aus.
     </Alert>
     </Stack>
