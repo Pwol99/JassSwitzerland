@@ -10,6 +10,11 @@ import cantonsGeoJSON from "./../../data/kantone.json";
 import { useNavigate } from "react-router-dom";
 import frbild from "./../../data/französisch.png";
 import grbild from "./../../data/Deutsche.png";
+import franz1 from "./../../data/Franzoesisch_1.json";
+import franz2 from "./../../data/Franzoesisch_2.json";
+import franz3 from "./../../data/Franzoesisch_3.json";
+import german from "./../../data/Deutsch.json";
+
 
 const importImages = (name) => {
   try {
@@ -42,7 +47,13 @@ export const FormComponent = (props) => {
     const language = kanType === 'ger' ? 'Deutsch' : 'Französisch';
   
     return (
-      <div className="popup-content">
+      
+      <div 
+      className="popup-content" 
+      style={{
+        display: "flex"
+
+        }}>
         <div className="popup-text">
           <b>Kanton:</b> {popupData.NAME}<br/>
           <b>Jasskarten Typ:</b> {language}<br/>
@@ -61,6 +72,14 @@ export const FormComponent = (props) => {
     fill: true,
     fillOpacity: 0.5,
     fillColor: '#FFFFFF',
+    interactive: true
+  };
+  const franzstyle = {
+    color: '#000000',
+    weight: 1,
+    fill: true,
+    fillOpacity: 0.5,
+    fillColor: '#CCCCCC', // Leichtes Grau als Füllfarbe
     interactive: true
   };
 
@@ -87,13 +106,27 @@ export const FormComponent = (props) => {
             attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>, USGS, NOAA'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
           />
+         
           <GeoJSON
+            data={franz1}
+            style={franzstyle}
+          />
+          <GeoJSON
+            data={franz2}
+            style={franzstyle}
+          />
+          <GeoJSON
+            data={franz3}
+            style={franzstyle}
+          />
+           <GeoJSON
             data={cantonsGeoJSON}
             style={geoJsonStyle}
             onEachFeature={(feature, layer) => {
               layer.on('click', () => handleFeatureClick(feature));
             }}
           />
+
           {/* Hier wird das Bild an der WGS 84-Koordinate (47.6021, 8.9769) platziert */}
           <img 
             src={frbild} 
@@ -161,9 +194,9 @@ export const FormComponent = (props) => {
               pointerEvents: 'none',
               // WGS 84-Koordinate (47.6021, 8.9769)
               // Mit Hilfe der leaflet Methode latLngToLayerPoint umgewandelt
-              top: 'calc(50% - 90px)', // Beispielwerte
+              top: 'calc(50% - 70px)', // Beispielwerte
               left: 'calc(50% + 90px)', // Hier wird das Bild um 100px nach links verschoben
-              width: '250px', // halbe Breite
+              width: '200px', // halbe Breite
               height: 'auto' // Höhe entsprechend anpassen
             }} 
           />
