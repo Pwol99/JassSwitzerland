@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { HeaderComponent } from "../HeaderComponent";
 import { FooterComponent } from "../FooterComponent";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,16 +18,15 @@ export const ImpressumComponent = (props) => {
   }, []);
 
   const handleGameEnd = () => {
-    // Zurücksetzen des Spielernamens oder andere Aktionen für das Spielende
     navigate("/");
   };
 
   const handleScoreboard = () => {
-    setOpen(true)
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false); // Schließen des Modal-Fensters
+    setOpen(false);
   };
 
   const renderAvatar = () => {
@@ -40,7 +39,14 @@ export const ImpressumComponent = (props) => {
     return null;
   };
 
-  // Beispiel-Daten für das Scoreboard
+  const buttonStyle = {
+    marginBottom: '10px',
+    backgroundColor: '#E7F6FF',
+    color: '#000',
+    height: '36px',
+    textTransform: 'none'
+  };
+
   const scoreboardData = [
     { name: 'Spieler 1', points: 100 },
     { name: 'Spieler 2', points: 80 },
@@ -49,7 +55,6 @@ export const ImpressumComponent = (props) => {
   ];
 
   const sortedPlayers = scoreboardData.sort((a, b) => b.points - a.points);
-  
 
   return (
     <>
@@ -89,11 +94,11 @@ export const ImpressumComponent = (props) => {
           </section>
         </div>
         <div style={{ position: 'absolute', top: '100px', right: '50px'}}>
-          <Button variant="contained" onClick={handleGameEnd} style={{ marginBottom: '10px' }}>Spiel beenden</Button>
-          <Button variant="contained" onClick={handleScoreboard} style={{ height: '36px' }}>Scoreboard</Button>
+          <Button variant="contained" onClick={handleGameEnd} style={buttonStyle}>Spiel beenden</Button>
+          <Button variant="contained" onClick={handleScoreboard} style={buttonStyle}>Scoreboard</Button>
         </div>
         <div style={{ position: 'absolute', top: '0', left: '0', margin: '10px', transform: 'translateX(-100%)' }}>
-          {renderAvatar()} {/* Avatar anzeigen */}
+          {renderAvatar()}
         </div>
       </div>
       <FooterComponent />
@@ -103,13 +108,12 @@ export const ImpressumComponent = (props) => {
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} // Zentrieren des Modal-Fensters
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <Box sx={{ width: 400, bgcolor: 'background.paper', p: 3, borderRadius: '8px' }}>
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
             Scoreboard
           </Typography>
-          {/* Scoreboard-Tabelle */}
           <Grid container spacing={2}>
             {sortedPlayers.map((player, index) => (
               <Grid item xs={12} key={index}>
@@ -119,6 +123,14 @@ export const ImpressumComponent = (props) => {
               </Grid>
             ))}
           </Grid>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+            <Button variant="contained" color="primary" onClick={() => {/* Funktion für neues Spiel */}} style={buttonStyle}>
+              Neues Spiel
+            </Button>
+            <Button variant="contained" color="secondary" onClick={handleGameEnd} style={buttonStyle}>
+              Beenden
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </>
