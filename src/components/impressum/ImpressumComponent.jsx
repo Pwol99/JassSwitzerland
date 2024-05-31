@@ -26,12 +26,17 @@ export const ImpressumComponent = (props) => {
             <h2>Entstehung</h2>
             <p>GeoHackathon 2024, FHNW Muttenz</p>
           </section>
+          <section>
+            <h2>Geodaten</h2>
+            <p>Die verwendeten Geodaten wurden auf <a href="https://data.opendatasoft.com/explore/dataset/georef-switzerland-kanton%40public/export/?disjunctive.kan_code&disjunctive.kan_name&sort=year" target="_blank" rel="noopener noreferrer">opendatasoft</a> bezogen.</p>
+          </section>
         </div>
         <div style={{ paddingTop: '20px', marginTop: '50px' }}>
           <section>
             <h2>Bilder</h2>
-            <p>Die verwendeten Bilder sind alle mit AI generiert.<br />
-            Die Jasskarten entstammen der Sammlung von <a href="https://www.jassportal.ch" target="_blank" rel="noopener noreferrer">Jassportal.ch</a>.</p>
+            <p>Die verwendeten Bilder sind mit AI generiert.<br />
+            Die verwendeten Kantonswappen sind von <a href="https://commons.wikimedia.org/wiki/Flags_of_cantons_of_Switzerland" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a><br />
+            Die Jasskarten entstammen der Sammlung von <a href="https://www.jassportal.ch" target="_blank" rel="noopener noreferrer">Jassportal.ch</a> </p>
           </section>
           <section>
             <h2>Warum jassen?</h2>
